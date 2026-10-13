@@ -6,33 +6,29 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
-        display: ['Outfit', '"Plus Jakarta Sans"', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
-      },
       colors: {
-        neon: {
-          DEFAULT: '#00F59B',
-          hover: '#00DC8C',
-          muted: 'rgba(0, 245, 155, 0.15)',
+        canvas: {
+          950: '#060608',
+          900: '#0c0c10',
+          850: '#111116',
+          800: '#17171e',
+          700: '#22222c',
         },
-        navy: {
-          950: '#060913',
-          900: '#090e1f',
-          850: '#0c142b',
-          800: '#111b38',
-          750: '#172449',
-          700: '#1e2f5d',
-        },
+        copper: {
+          400: '#fb923c',
+          500: '#f97316',
+          600: '#ea580c',
+          glow: 'rgba(234, 88, 12, 0.15)',
+        }
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
       boxShadow: {
-        'neon': '0 0 25px rgba(0, 245, 155, 0.25)',
-        'blue-glow': '0 0 50px rgba(37, 99, 235, 0.25)',
-        'purple-glow': '0 0 45px rgba(168, 85, 247, 0.2)',
-      },
-      animation: {
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'glow-copper': '0 0 50px -10px rgba(249, 115, 22, 0.25)',
+        'glow-subtle': '0 0 30px -5px rgba(255, 255, 255, 0.05)',
+        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
       }
     },
   },
