@@ -216,6 +216,10 @@ if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1:
         test_pdf = sys.argv[1]
+        if not os.path.exists(test_pdf):
+            print(f"[ERROR] PDF file not found: '{test_pdf}'")
+            print("Please verify the file path and try again.")
+            sys.exit(1)
         print(f"Processing document: {test_pdf}")
         result = process_document(test_pdf)
         print("\nExtracted Structured Data:")
