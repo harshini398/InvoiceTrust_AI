@@ -8,13 +8,6 @@ import {
   TrendingUp, 
   ArrowUpRight, 
   CheckCircle2, 
-  XCircle, 
-  Clock,
-  ArrowRight,
-  ShieldCheck,
-  Activity,
-  Layers,
-  DollarSign
 } from 'lucide-react';
 
 export default function OverviewDashboard({ 
@@ -32,9 +25,6 @@ export default function OverviewDashboard({
   const failCount = 7;
   const passRatio = Math.round((passCount / (passCount + failCount)) * 100);
 
-  // Compute total volume from actual records
-  const totalVolume = queueItems.reduce((acc, curr) => acc + (curr.total_amount || 0), 0) + 1240000;
-
   const scrollToCapabilities = () => {
     const el = document.getElementById('capabilities');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -49,7 +39,7 @@ export default function OverviewDashboard({
         onExplorePlatform={scrollToCapabilities}
       />
 
-      {/* 2. Aggregate Risk & Verification Overview (Section G) */}
+      {/* 2. Aggregate Risk & Verification Overview */}
       <section className="space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#23352C]">
           <div>
@@ -154,7 +144,7 @@ export default function OverviewDashboard({
         </div>
       </section>
 
-      {/* 3. Product Capabilities Section (Section C) */}
+      {/* 3. Product Capabilities Section */}
       <CapabilitiesSection 
         onNavigateToUpload={onNavigateToUpload}
         onNavigateToQueue={onNavigateToQueue}
@@ -174,10 +164,10 @@ export default function OverviewDashboard({
           </div>
           <button
             onClick={onNavigateToTable}
-            className="text-xs font-mono text-[#D9F99D] hover:text-[#C7EE84] flex items-center font-semibold self-start sm:self-auto transition"
+            className="h-8 px-3.5 rounded-full bg-[#182821] hover:bg-[#1E342B] border border-[#23352C] text-xs font-mono text-[#D9F99D] hover:text-[#C7EE84] inline-flex items-center space-x-1.5 font-semibold transition"
           >
             <span>Open complete ledger</span>
-            <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
+            <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
         </div>
 
@@ -228,9 +218,9 @@ export default function OverviewDashboard({
                     <td className="py-3.5 px-4 text-right">
                       <button
                         onClick={() => onSelectInvoice(item.invoice_id || item.id)}
-                        className="px-3 py-1 rounded-lg bg-[#101915] hover:bg-[#1E342B] text-[#D9F99D] border border-[#23352C] text-xs font-semibold transition"
+                        className="h-8 px-3.5 rounded-lg bg-[#101915] hover:bg-[#1E342B] text-[#D9F99D] border border-[#23352C] text-xs font-semibold transition inline-flex items-center space-x-1"
                       >
-                        Inspect
+                        <span>Inspect</span>
                       </button>
                     </td>
                   </tr>

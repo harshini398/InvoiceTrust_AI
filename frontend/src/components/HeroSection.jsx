@@ -2,19 +2,14 @@ import React from 'react';
 import { 
   ArrowUpRight, 
   ChevronDown, 
-  ShieldCheck, 
   FileText, 
-  CheckCircle2, 
-  AlertCircle, 
   Lock,
   ArrowRight,
-  TrendingUp,
-  Cpu
 } from 'lucide-react';
 
 export default function HeroSection({ onNavigateToUpload, onExplorePlatform }) {
   return (
-    <section className="relative pt-8 pb-16 lg:pt-16 lg:pb-24 overflow-hidden border-b border-[#23352C]/60">
+    <section className="relative pt-6 pb-14 lg:pt-14 lg:pb-20 overflow-hidden border-b border-[#23352C]/60">
       
       {/* Ambient Radial Spotlight Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-96 bg-[#D9F99D]/[0.06] blur-[120px] pointer-events-none rounded-full" />
@@ -22,8 +17,8 @@ export default function HeroSection({ onNavigateToUpload, onExplorePlatform }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Top Eyebrow Tag */}
-        <div className="inline-flex items-center space-x-2.5 px-3.5 py-1 rounded-full bg-[#182821] border border-[#23352C] text-[#D9F99D] text-xs font-mono tracking-wider uppercase mb-8 shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-[#D9F99D] animate-ping" />
+        <div className="inline-flex items-center space-x-2.5 px-3.5 py-1 rounded-full bg-[#182821] border border-[#23352C] text-[#D9F99D] text-xs font-mono tracking-wider uppercase mb-7 shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-[#D9F99D]" />
           <span>Autonomous 3-Way Match & Fraud Prevention</span>
         </div>
 
@@ -41,11 +36,11 @@ export default function HeroSection({ onNavigateToUpload, onExplorePlatform }) {
               AI-powered invoice intelligence for verification, duplicate detection, risk assessment, and transparent financing decisions.
             </p>
 
-            {/* CTAs with zero collision */}
+            {/* CTAs with identical heights and pixel-perfect horizontal alignment */}
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <button
                 onClick={onNavigateToUpload}
-                className="px-7 py-3.5 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] font-display font-bold text-sm tracking-tight transition-all duration-200 shadow-lime-glow hover:shadow-lg flex items-center space-x-2 transform active:scale-95"
+                className="h-12 inline-flex items-center justify-center space-x-2 px-7 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] font-display font-bold text-sm tracking-tight transition-all duration-150 shadow-lime-glow hover:shadow-lg transform active:scale-95 box-border"
               >
                 <span>Verify an Invoice</span>
                 <ArrowRight className="w-4 h-4 text-[#101915] stroke-[2.5]" />
@@ -53,14 +48,14 @@ export default function HeroSection({ onNavigateToUpload, onExplorePlatform }) {
 
               <button
                 onClick={onExplorePlatform}
-                className="px-7 py-3.5 rounded-full bg-[#182821] hover:bg-[#1E342B] text-[#F4F5F0] border border-[#23352C] hover:border-[#D9F99D]/40 text-sm font-medium transition-all duration-200 flex items-center space-x-2"
+                className="h-12 inline-flex items-center justify-center space-x-2 px-7 rounded-full bg-[#182821] hover:bg-[#1E342B] text-[#F4F5F0] border border-[#23352C] hover:border-[#D9F99D]/40 text-sm font-medium transition-all duration-150 box-border"
               >
                 <span>Explore Platform</span>
                 <ChevronDown className="w-4 h-4 text-[#89948C]" />
               </button>
             </div>
 
-            {/* Subtle Metrics Line */}
+            {/* Metrics Line */}
             <div className="pt-6 border-t border-[#23352C]/70 grid grid-cols-3 gap-6 max-w-md">
               <div>
                 <div className="font-display font-extrabold text-2xl text-[#F4F5F0]">100%</div>
@@ -77,7 +72,7 @@ export default function HeroSection({ onNavigateToUpload, onExplorePlatform }) {
             </div>
           </div>
 
-          {/* Right Column: Distinctive Animated Financial Data Visualization (5 cols) */}
+          {/* Right Column: Visualization Panel (5 cols) */}
           <div className="lg:col-span-5">
             <div className="relative p-6 sm:p-7 rounded-3xl bg-[#182821] border border-[#23352C] shadow-studio-panel space-y-5 overflow-hidden">
               
@@ -151,13 +146,13 @@ export default function HeroSection({ onNavigateToUpload, onExplorePlatform }) {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="mt-14 text-center">
+        <div className="mt-12 text-center">
           <button 
             onClick={onExplorePlatform}
-            className="inline-flex flex-col items-center space-y-2 text-[#89948C] hover:text-[#D9F99D] transition group"
+            className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-[#182821] hover:bg-[#1E342B] border border-[#23352C] text-[#89948C] hover:text-[#D9F99D] transition text-xs font-mono"
           >
-            <span className="text-[11px] uppercase tracking-widest font-mono">Scroll to explore capabilities</span>
-            <ChevronDown className="w-4 h-4 animate-bounce" />
+            <span className="uppercase tracking-widest text-[10px]">Explore Capabilities</span>
+            <ChevronDown className="w-3.5 h-3.5" />
           </button>
         </div>
 

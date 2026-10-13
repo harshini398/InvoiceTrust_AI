@@ -8,8 +8,6 @@ import {
   ArrowRight, 
   ShieldCheck, 
   AlertCircle,
-  Lock,
-  ArrowUpRight
 } from 'lucide-react';
 
 export default function UploadVerify({ onVerifySuccess }) {
@@ -122,11 +120,11 @@ export default function UploadVerify({ onVerifySuccess }) {
         onDragOver={(e) => handleDrag(fileKey, e)}
         onDragLeave={(e) => handleDrag(fileKey, e)}
         onDrop={(e) => handleDrop(fileKey, e)}
-        className={`relative rounded-3xl border transition-all duration-300 p-6 flex flex-col justify-between ${
+        className={`relative rounded-3xl border transition-all duration-300 p-6 flex flex-col justify-between min-h-[240px] box-border ${
           file 
             ? 'border-[#D9F99D]/40 bg-[#182821] shadow-lime-glow' 
             : isDragging
-            ? 'border-[#D9F99D] bg-[#1F342B] scale-[1.01]'
+            ? 'border-[#D9F99D] bg-[#1F342B]'
             : 'border-[#23352C] hover:border-[#D9F99D]/30 bg-[#182821]/70'
         }`}
       >
@@ -147,9 +145,10 @@ export default function UploadVerify({ onVerifySuccess }) {
           </div>
         </div>
 
-        <div className="mt-5 w-full">
+        {/* Action Button Area: Strict h-10 height for exact alignment across all 3 cards */}
+        <div className="mt-5 w-full h-10 flex items-center">
           {file ? (
-            <div className="w-full bg-[#101915] border border-[#23352C] rounded-xl p-2.5 flex items-center justify-between">
+            <div className="w-full h-10 bg-[#101915] border border-[#23352C] rounded-xl px-3 flex items-center justify-between box-border">
               <div className="flex items-center space-x-2 truncate">
                 <FileText className="w-4 h-4 text-[#D9F99D] shrink-0" />
                 <span className="text-xs text-[#F4F5F0] truncate font-mono">{file.name}</span>
@@ -157,15 +156,15 @@ export default function UploadVerify({ onVerifySuccess }) {
               <button
                 type="button"
                 onClick={() => removeFile(fileKey)}
-                className="text-[#89948C] hover:text-[#F87171] p-1 transition"
+                className="text-[#89948C] hover:text-[#F87171] p-1 transition shrink-0"
                 title="Remove file"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
           ) : (
-            <label className="w-full cursor-pointer flex items-center justify-center space-x-2 px-4 py-2.5 rounded-full bg-[#101915] hover:bg-[#1E342B] text-xs font-semibold text-[#F4F5F0] border border-[#23352C] hover:border-[#D9F99D]/30 transition">
-              <span>Select File or Drop Here</span>
+            <label className="w-full h-10 cursor-pointer flex items-center justify-center space-x-2 px-4 rounded-full bg-[#101915] hover:bg-[#1E342B] text-xs font-semibold text-[#F4F5F0] border border-[#23352C] hover:border-[#D9F99D]/30 transition box-border">
+              <span>Select File or Drop</span>
               <input
                 type="file"
                 accept=".pdf,.png,.jpg,.jpeg,.json"
@@ -181,7 +180,7 @@ export default function UploadVerify({ onVerifySuccess }) {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-fadeIn pb-12">
-      {/* Header */}
+      {/* Header with pixel-aligned CTA */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#23352C]">
         <div>
           <span className="text-xs font-mono uppercase tracking-widest text-[#D9F99D]">
@@ -195,11 +194,11 @@ export default function UploadVerify({ onVerifySuccess }) {
           </p>
         </div>
         
-        {/* Sample Loader CTA */}
+        {/* Sample Loader CTA (Consistent h-9 height) */}
         <button
           type="button"
           onClick={loadSampleDocs}
-          className="self-start sm:self-auto inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-[#182821] hover:bg-[#1E342B] text-[#D9F99D] border border-[#23352C] hover:border-[#D9F99D]/30 text-xs font-mono font-semibold transition shadow-sm"
+          className="h-9 inline-flex items-center justify-center space-x-2 px-4 rounded-full bg-[#182821] hover:bg-[#1E342B] text-[#D9F99D] border border-[#23352C] hover:border-[#D9F99D]/30 text-xs font-mono font-semibold transition shadow-sm shrink-0 self-start sm:self-auto box-border"
         >
           <Sparkles className="w-3.5 h-3.5" />
           <span>Load Hackathon Samples</span>
@@ -259,7 +258,7 @@ export default function UploadVerify({ onVerifySuccess }) {
             </div>
           </div>
         ) : (
-          <div className="p-6 rounded-3xl bg-[#182821] border border-[#23352C] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-studio-panel">
+          <div className="p-5 sm:p-6 rounded-3xl bg-[#182821] border border-[#23352C] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-studio-panel">
             <div className="flex items-center space-x-3 text-xs text-[#89948C]">
               <ShieldCheck className="w-4 h-4 text-[#D9F99D] shrink-0" />
               <span>
@@ -268,7 +267,7 @@ export default function UploadVerify({ onVerifySuccess }) {
             </div>
             <button
               type="submit"
-              className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center space-x-2 px-8 py-3.5 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] font-display font-bold text-xs sm:text-sm tracking-tight transition-all duration-200 shadow-lime-glow hover:shadow-lg transform active:scale-95"
+              className="w-full sm:w-auto shrink-0 h-12 inline-flex items-center justify-center space-x-2 px-8 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] font-display font-bold text-xs sm:text-sm tracking-tight transition-all duration-150 shadow-lime-glow hover:shadow-lg transform active:scale-95 box-border"
             >
               <span>Run Verification</span>
               <ArrowRight className="w-4 h-4 text-[#101915] stroke-[2.5]" />

@@ -1,13 +1,14 @@
 import React from 'react';
-import { ShieldCheck, ArrowRight, ArrowUpRight } from 'lucide-react';
+import BusinessLogo from './BusinessLogo';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
 export default function FooterSection({ onNavigateToUpload, setActiveTab }) {
   return (
-    <footer className="border-t border-[#23352C] bg-[#101915] pt-16 pb-12 text-xs text-[#89948C]">
+    <footer className="border-t border-[#23352C] bg-[#101915] pt-14 pb-12 text-xs text-[#89948C]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
-        {/* Phenomenon Studio Final Closing CTA Section */}
-        <div className="relative p-8 sm:p-14 rounded-3xl bg-[#182821] border border-[#23352C] overflow-hidden shadow-studio-panel">
+        {/* Closing CTA Section */}
+        <div className="relative p-8 sm:p-12 rounded-3xl bg-[#182821] border border-[#23352C] overflow-hidden shadow-studio-panel">
           <div className="absolute top-0 right-0 w-80 h-80 bg-[#D9F99D]/[0.08] blur-[90px] rounded-full pointer-events-none" />
           
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
@@ -25,7 +26,7 @@ export default function FooterSection({ onNavigateToUpload, setActiveTab }) {
 
             <button
               onClick={onNavigateToUpload}
-              className="px-8 py-4 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] font-display font-bold text-sm tracking-tight transition-all duration-200 shadow-lime-glow hover:shadow-lg flex items-center space-x-2 shrink-0 self-start md:self-auto transform active:scale-95"
+              className="h-12 inline-flex items-center justify-center space-x-2 px-8 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] font-display font-bold text-sm tracking-tight transition-all duration-150 shadow-lime-glow hover:shadow-lg shrink-0 self-start md:self-auto transform active:scale-95 box-border"
             >
               <span>Start Verification Workflow</span>
               <ArrowRight className="w-4 h-4 text-[#101915] stroke-[2.5]" />
@@ -36,17 +37,10 @@ export default function FooterSection({ onNavigateToUpload, setActiveTab }) {
         {/* Footer Links & Metadata */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-8 border-t border-[#23352C]/60">
           
-          {/* Brand Col */}
+          {/* Brand Col with Business Logo */}
           <div className="space-y-3 md:col-span-2">
-            <div className="flex items-center space-x-2.5">
-              <div className="w-7 h-7 rounded-lg bg-[#D9F99D] text-[#101915] flex items-center justify-center font-black">
-                <ShieldCheck className="w-4 h-4 text-[#101915] stroke-[2.5]" />
-              </div>
-              <span className="font-display font-bold text-base text-[#F4F5F0]">
-                InvoiceTrust<span className="text-[#D9F99D]">.AI</span>
-              </span>
-            </div>
-            <p className="text-xs text-[#89948C] max-w-sm leading-relaxed">
+            <BusinessLogo />
+            <p className="text-xs text-[#89948C] max-w-sm leading-relaxed mt-2">
               Autonomous 3-Way Match & Fraud Prevention platform. Designed with Phenomenon Studio editorial aesthetics for enterprise fintech operations.
             </p>
           </div>

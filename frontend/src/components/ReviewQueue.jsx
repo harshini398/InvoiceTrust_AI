@@ -7,8 +7,6 @@ import {
   Search, 
   Send, 
   MessageSquare,
-  Check,
-  ShieldAlert
 } from 'lucide-react';
 
 export default function ReviewQueue({ queueItems, onRecordDecision }) {
@@ -67,22 +65,22 @@ export default function ReviewQueue({ queueItems, onRecordDecision }) {
         {/* Left Column: Queue Items List (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
           
-          {/* Search & Filter Bar */}
-          <div className="p-3.5 rounded-2xl bg-[#182821] border border-[#23352C] flex flex-col sm:flex-row gap-2">
+          {/* Search & Filter Bar (Both strict h-10 for pixel alignment) */}
+          <div className="p-3.5 rounded-2xl bg-[#182821] border border-[#23352C] flex flex-col sm:flex-row gap-2.5">
             <div className="relative flex-1">
-              <Search className="w-3.5 h-3.5 text-[#89948C] absolute left-3.5 top-3" />
+              <Search className="w-3.5 h-3.5 text-[#89948C] absolute left-3.5 top-3.5 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search vendor or invoice..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-[#101915] border border-[#23352C] rounded-xl pl-9 pr-3 py-2 text-xs text-[#F4F5F0] placeholder-[#89948C] focus:outline-none focus:border-[#D9F99D]/50"
+                className="w-full h-10 bg-[#101915] border border-[#23352C] rounded-xl pl-9 pr-3 text-xs text-[#F4F5F0] placeholder-[#89948C] focus:outline-none focus:border-[#D9F99D]/50 box-border"
               />
             </div>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-[#101915] border border-[#23352C] rounded-xl px-3 py-2 text-xs text-[#F4F5F0] focus:outline-none"
+              className="h-10 bg-[#101915] border border-[#23352C] rounded-xl px-3 text-xs text-[#F4F5F0] focus:outline-none focus:border-[#D9F99D]/50 box-border cursor-pointer shrink-0"
             >
               <option value="ALL">All Status</option>
               <option value="PENDING_REVIEW">Pending</option>
@@ -230,19 +228,19 @@ export default function ReviewQueue({ queueItems, onRecordDecision }) {
                 </div>
               )}
 
-              {/* Decision Input Form (Zero Collision Button Layout) */}
+              {/* Decision Input Form (Zero Collision Button Layout: exact matching h-12 heights) */}
               <form onSubmit={handleSubmitDecision} className="space-y-4 pt-2 border-t border-[#23352C]">
                 <div className="space-y-2">
                   <label className="text-xs font-semibold text-[#F4F5F0]">
                     Record Audit Decision:
                   </label>
                   
-                  {/* Two Separate Buttons (Flex gap-3, never collide) */}
+                  {/* Two Buttons: matching h-12 height, centered, identical radius */}
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button
                       type="button"
                       onClick={() => setSelectedDecision('APPROVE')}
-                      className={`flex-1 p-3.5 rounded-2xl border flex items-center justify-center space-x-2 text-xs font-bold transition-all ${
+                      className={`flex-1 h-12 rounded-2xl border inline-flex items-center justify-center space-x-2 text-xs font-bold transition-all box-border ${
                         selectedDecision === 'APPROVE'
                           ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300 ring-2 ring-emerald-500/30'
                           : 'bg-[#101915] border-[#23352C] text-[#89948C] hover:text-emerald-400 hover:border-emerald-500/30'
@@ -255,7 +253,7 @@ export default function ReviewQueue({ queueItems, onRecordDecision }) {
                     <button
                       type="button"
                       onClick={() => setSelectedDecision('REJECT')}
-                      className={`flex-1 p-3.5 rounded-2xl border flex items-center justify-center space-x-2 text-xs font-bold transition-all ${
+                      className={`flex-1 h-12 rounded-2xl border inline-flex items-center justify-center space-x-2 text-xs font-bold transition-all box-border ${
                         selectedDecision === 'REJECT'
                           ? 'bg-[#F87171]/20 border-[#F87171] text-[#F87171] ring-2 ring-[#F87171]/30'
                           : 'bg-[#101915] border-[#23352C] text-[#89948C] hover:text-[#F87171] hover:border-[#F87171]/30'
@@ -277,13 +275,13 @@ export default function ReviewQueue({ queueItems, onRecordDecision }) {
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
                     placeholder="E.g., Approved via VP emergency procurement waiver #402, or Rejected due to unauthorized ₹3,000 unit markup..."
-                    className="w-full bg-[#101915] border border-[#23352C] rounded-2xl p-3.5 text-xs text-[#F4F5F0] placeholder-[#89948C] focus:outline-none focus:border-[#D9F99D]/50 transition"
+                    className="w-full bg-[#101915] border border-[#23352C] rounded-2xl p-3.5 text-xs text-[#F4F5F0] placeholder-[#89948C] focus:outline-none focus:border-[#D9F99D]/50 transition box-border"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center space-x-2 py-3.5 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] font-display font-bold text-xs tracking-tight transition-all duration-200 shadow-lime-glow hover:shadow-lg transform active:scale-95"
+                  className="w-full h-12 inline-flex items-center justify-center space-x-2 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] font-display font-bold text-xs tracking-tight transition-all duration-150 shadow-lime-glow hover:shadow-lg transform active:scale-95 box-border"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Submit Immutable Review Decision</span>

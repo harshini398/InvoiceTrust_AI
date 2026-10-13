@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Search, 
-  Filter, 
   ArrowUpRight, 
-  ShieldAlert, 
-  CheckCircle2, 
-  XCircle, 
-  AlertTriangle,
-  Clock,
-  DollarSign
 } from 'lucide-react';
 
 export default function InvoiceTable({ invoices, onSelectInvoice }) {
@@ -30,7 +23,7 @@ export default function InvoiceTable({ invoices, onSelectInvoice }) {
   return (
     <div className="space-y-6">
       
-      {/* Table Header & Controls Bar */}
+      {/* Table Header & Controls Bar (Strict h-10 alignment on all controls) */}
       <div className="p-5 rounded-2xl bg-[#182821] border border-[#23352C] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h3 className="font-display font-bold text-lg text-[#F4F5F0]">
@@ -41,17 +34,17 @@ export default function InvoiceTable({ invoices, onSelectInvoice }) {
           </p>
         </div>
 
-        {/* Search & Filters (Zero collision) */}
+        {/* Search & Filters (Exact h-10 height, perfect alignment) */}
         <div className="flex flex-wrap items-center gap-3">
           {/* Search Input */}
           <div className="relative min-w-[200px]">
-            <Search className="w-3.5 h-3.5 text-[#89948C] absolute left-3 top-3" />
+            <Search className="w-3.5 h-3.5 text-[#89948C] absolute left-3 top-3.5 pointer-events-none" />
             <input
               type="text"
               placeholder="Search supplier or ID..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#101915] border border-[#23352C] rounded-xl pl-9 pr-3 py-2 text-xs text-[#F4F5F0] placeholder-[#89948C] focus:outline-none focus:border-[#D9F99D]/50 transition"
+              className="w-full h-10 bg-[#101915] border border-[#23352C] rounded-xl pl-9 pr-3 text-xs text-[#F4F5F0] placeholder-[#89948C] focus:outline-none focus:border-[#D9F99D]/50 transition box-border"
             />
           </div>
 
@@ -59,7 +52,7 @@ export default function InvoiceTable({ invoices, onSelectInvoice }) {
           <select
             value={riskFilter}
             onChange={(e) => setRiskFilter(e.target.value)}
-            className="bg-[#101915] border border-[#23352C] rounded-xl px-3 py-2 text-xs text-[#F4F5F0] focus:outline-none focus:border-[#D9F99D]/50"
+            className="h-10 bg-[#101915] border border-[#23352C] rounded-xl px-3 text-xs text-[#F4F5F0] focus:outline-none focus:border-[#D9F99D]/50 box-border cursor-pointer"
           >
             <option value="ALL">All Risk Levels</option>
             <option value="HIGH">High Risk</option>
@@ -71,7 +64,7 @@ export default function InvoiceTable({ invoices, onSelectInvoice }) {
           <select
             value={paymentFilter}
             onChange={(e) => setPaymentFilter(e.target.value)}
-            className="bg-[#101915] border border-[#23352C] rounded-xl px-3 py-2 text-xs text-[#F4F5F0] focus:outline-none focus:border-[#D9F99D]/50"
+            className="h-10 bg-[#101915] border border-[#23352C] rounded-xl px-3 text-xs text-[#F4F5F0] focus:outline-none focus:border-[#D9F99D]/50 box-border cursor-pointer"
           >
             <option value="ALL">All Payments</option>
             <option value="UNPAID">UNPAID</option>
@@ -151,7 +144,7 @@ export default function InvoiceTable({ invoices, onSelectInvoice }) {
                     <td className="py-4 px-4 text-right">
                       <button
                         onClick={() => onSelectInvoice(inv.invoice_id)}
-                        className="px-3 py-1 rounded-lg bg-[#101915] hover:bg-[#1E342B] text-[#D9F99D] border border-[#23352C] text-xs font-semibold transition flex items-center space-x-1 ml-auto"
+                        className="h-8 px-3.5 rounded-lg bg-[#101915] hover:bg-[#1E342B] text-[#D9F99D] border border-[#23352C] text-xs font-semibold transition inline-flex items-center space-x-1 ml-auto box-border"
                       >
                         <span>Inspect</span>
                         <ArrowUpRight className="w-3 h-3" />

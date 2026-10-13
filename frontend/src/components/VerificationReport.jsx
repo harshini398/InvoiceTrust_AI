@@ -1,16 +1,11 @@
 import React from 'react';
 import { 
   AlertTriangle, 
-  CheckCircle2, 
   XCircle, 
-  ShieldAlert, 
   FileText, 
-  ArrowRight,
   ClipboardList,
   History,
   Check,
-  TrendingDown,
-  ArrowUpRight
 } from 'lucide-react';
 
 export default function VerificationReport({ 
@@ -27,7 +22,7 @@ export default function VerificationReport({
         <p className="text-xs text-[#89948C]">Please upload documents first or select an invoice from the ledger.</p>
         <button
           onClick={onNewVerification}
-          className="px-6 py-2.5 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] text-xs font-bold"
+          className="h-10 px-6 inline-flex items-center justify-center rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] text-xs font-bold"
         >
           Upload Documents
         </button>
@@ -279,25 +274,25 @@ export default function VerificationReport({
         </div>
       </div>
 
-      {/* Action Footer (Zero button collision) */}
+      {/* Action Footer: Identical h-11 heights on all 3 buttons for perfect visual balance */}
       <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
         <button
           onClick={onNewVerification}
-          className="px-6 py-3 rounded-full bg-[#182821] hover:bg-[#1E342B] text-[#F4F5F0] border border-[#23352C] text-xs font-semibold transition"
+          className="h-11 px-6 rounded-full bg-[#182821] hover:bg-[#1E342B] text-[#F4F5F0] border border-[#23352C] text-xs font-semibold transition inline-flex items-center justify-center box-border"
         >
           Verify Another Document
         </button>
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={onNavigateToAudit}
-            className="inline-flex items-center space-x-1.5 px-6 py-3 rounded-full bg-[#182821] hover:bg-[#1E342B] text-[#D9F99D] border border-[#23352C] text-xs font-semibold transition"
+            className="h-11 px-6 rounded-full bg-[#182821] hover:bg-[#1E342B] text-[#D9F99D] border border-[#23352C] text-xs font-semibold transition inline-flex items-center justify-center space-x-1.5 box-border"
           >
             <History className="w-3.5 h-3.5" />
             <span>View SHA-256 Hashes</span>
           </button>
           <button
             onClick={onNavigateToQueue}
-            className="inline-flex items-center space-x-1.5 px-7 py-3 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] text-xs font-bold shadow-lime-glow transition transform active:scale-95"
+            className="h-11 px-7 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] text-xs font-bold shadow-lime-glow transition inline-flex items-center justify-center space-x-1.5 transform active:scale-95 box-border"
           >
             <ClipboardList className="w-3.5 h-3.5" />
             <span>Open in Review Queue</span>

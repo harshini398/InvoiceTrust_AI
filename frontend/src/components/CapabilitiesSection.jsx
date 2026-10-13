@@ -2,13 +2,10 @@ import React from 'react';
 import { 
   ShieldCheck, 
   FileSearch, 
-  CopyCheck, 
-  Activity, 
-  History, 
   ArrowUpRight,
-  Layers,
-  Sparkles,
-  Lock
+  Lock,
+  Activity,
+  History
 } from 'lucide-react';
 
 export default function CapabilitiesSection({ onNavigateToUpload, onNavigateToQueue, onNavigateToAudit }) {
@@ -27,7 +24,7 @@ export default function CapabilitiesSection({ onNavigateToUpload, onNavigateToQu
       number: "02",
       title: "Multimodal Entity & OCR Extraction",
       description: "High-accuracy vision pipeline extracting line items, supplier identities, tax totals, and itemized unit rates with calibrated 95%+ confidence scores.",
-      surface: "light", // Crisp light editorial surface (#F4F5F0) for high visual contrast
+      surface: "light",
       badge: "Extraction Pipeline",
       actionLabel: "Test Extraction",
       action: onNavigateToUpload,
@@ -57,7 +54,7 @@ export default function CapabilitiesSection({ onNavigateToUpload, onNavigateToQu
       number: "05",
       title: "Immutable Audit Trail & Human Governance",
       description: "Time-stamped audit logs with human-in-the-loop review queue to approve or reject discrepancies with auditable justification comments.",
-      surface: "light", // Editorial light surface
+      surface: "light",
       badge: "Governance",
       actionLabel: "Open Review Queue",
       action: onNavigateToQueue,
@@ -66,12 +63,12 @@ export default function CapabilitiesSection({ onNavigateToUpload, onNavigateToQu
   ];
 
   return (
-    <section id="capabilities" className="py-20 border-b border-[#23352C]/60">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section id="capabilities" className="py-16 border-b border-[#23352C]/60">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-[#23352C]">
-          <div className="space-y-3">
+          <div className="space-y-2">
             <span className="text-xs font-mono uppercase tracking-widest text-[#D9F99D]">
               Platform Architecture & Capabilities
             </span>
@@ -79,12 +76,12 @@ export default function CapabilitiesSection({ onNavigateToUpload, onNavigateToQu
               Built for Absolute Financial Integrity.
             </h2>
           </div>
-          <p className="text-sm sm:text-base text-[#89948C] max-w-md font-normal leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#89948C] max-w-md font-normal leading-relaxed">
             Eliminating billing leakage, unauthorized markups, and duplicate disbursement across enterprise supply chains.
           </p>
         </div>
 
-        {/* Asymmetric Capabilities Grid */}
+        {/* Asymmetric Capabilities Grid with baseline-aligned buttons */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((item, idx) => {
             const Icon = item.icon;
@@ -93,14 +90,14 @@ export default function CapabilitiesSection({ onNavigateToUpload, onNavigateToQu
             return (
               <div
                 key={idx}
-                className={`rounded-3xl p-7 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden ${
+                className={`rounded-3xl p-7 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden h-full ${
                   isLight
                     ? 'bg-[#F4F5F0] text-[#172019] border border-[#E2E4DC] shadow-xl hover:-translate-y-1'
                     : 'bg-[#182821] text-[#F4F5F0] border border-[#23352C] hover:border-[#D9F99D]/40 shadow-studio-panel hover:-translate-y-1'
                 }`}
               >
-                {/* Number & Badge */}
-                <div className="space-y-4">
+                {/* Top Content Area */}
+                <div className="space-y-4 flex-1 flex flex-col">
                   <div className="flex items-center justify-between">
                     <span className={`font-mono font-bold text-xs ${isLight ? 'text-[#172019]/60' : 'text-[#D9F99D]'}`}>
                       {item.number}
@@ -114,7 +111,7 @@ export default function CapabilitiesSection({ onNavigateToUpload, onNavigateToQu
                     </span>
                   </div>
 
-                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${
+                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
                     isLight 
                       ? 'bg-[#172019] text-[#D9F99D]' 
                       : 'bg-[#101915] border border-[#23352C] text-[#D9F99D]'
@@ -135,14 +132,14 @@ export default function CapabilitiesSection({ onNavigateToUpload, onNavigateToQu
                   </p>
                 </div>
 
-                {/* Card Action Link */}
-                <div className="pt-6 mt-6 border-t border-current/10">
+                {/* Card Action Link: mt-auto guarantees exact baseline alignment across all cards */}
+                <div className="mt-6 pt-5 border-t border-current/10 flex items-center">
                   <button
                     onClick={item.action}
-                    className={`inline-flex items-center space-x-1.5 text-xs font-semibold transition ${
+                    className={`h-8 inline-flex items-center space-x-1.5 text-xs font-bold transition rounded-full px-3 -ml-3 ${
                       isLight
-                        ? 'text-[#172019] hover:opacity-75'
-                        : 'text-[#D9F99D] hover:text-[#C7EE84]'
+                        ? 'text-[#172019] hover:bg-[#172019]/5'
+                        : 'text-[#D9F99D] hover:bg-[#D9F99D]/10'
                     }`}
                   >
                     <span>{item.actionLabel}</span>
