@@ -3,9 +3,9 @@ import {
   AlertTriangle, 
   XCircle, 
   FileText, 
-  ClipboardList,
-  History,
-  Check,
+  ClipboardList, 
+  History, 
+  Check, 
 } from 'lucide-react';
 
 export default function VerificationReport({ 
@@ -16,13 +16,13 @@ export default function VerificationReport({
 }) {
   if (!reportData) {
     return (
-      <div className="text-center py-20 p-8 rounded-3xl bg-[#182821] border border-[#23352C] max-w-xl mx-auto space-y-4">
-        <FileText className="w-12 h-12 text-[#89948C] mx-auto" />
-        <h2 className="font-display font-bold text-lg text-[#F4F5F0]">No Verification Report Selected</h2>
-        <p className="text-xs text-[#89948C]">Please upload documents first or select an invoice from the ledger.</p>
+      <div className="text-center py-20 p-8 rounded-3xl bg-[#111827] border border-[#1E2D47] max-w-xl mx-auto space-y-4">
+        <FileText className="w-12 h-12 text-[#94A3B8] mx-auto" />
+        <h2 className="font-display font-bold text-lg text-[#F8FAFC]">No Verification Report Selected</h2>
+        <p className="text-xs text-[#94A3B8]">Please upload documents first or select an invoice from the ledger.</p>
         <button
           onClick={onNewVerification}
-          className="h-10 px-6 inline-flex items-center justify-center rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] text-xs font-bold"
+          className="h-10 px-6 inline-flex items-center justify-center rounded-full bg-[#38BDF8] hover:bg-[#0EA5E9] text-[#0A0E17] text-xs font-bold"
         >
           Upload Documents
         </button>
@@ -57,30 +57,30 @@ export default function VerificationReport({
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-fadeIn pb-12">
       {/* Top Header Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-[#182821] border border-[#23352C] flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-studio-panel">
+      <div className="p-6 sm:p-8 rounded-3xl bg-[#111827] border border-[#1E2D47] flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-studio-panel">
         <div className="space-y-1.5">
           <div className="flex items-center space-x-2">
-            <span className="text-[11px] uppercase font-mono tracking-wider text-[#D9F99D]">
+            <span className="text-[11px] uppercase font-mono tracking-wider text-[#38BDF8]">
               Verification Report
             </span>
-            <span className="text-[#89948C]">•</span>
-            <span className="font-mono text-xs text-[#F4F5F0] font-semibold">{invoice_id}</span>
+            <span className="text-[#94A3B8]">•</span>
+            <span className="font-mono text-xs text-[#F8FAFC] font-semibold">{invoice_id}</span>
           </div>
-          <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[#F4F5F0] tracking-tight">
+          <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[#F8FAFC] tracking-tight">
             {extraction?.supplier || 'Vendor'} — 3-Way Match Audit
           </h1>
-          <p className="text-xs text-[#89948C]">
+          <p className="text-xs text-[#94A3B8]">
             Corroborated against Purchase Order & Warehouse Delivery Receipt
           </p>
         </div>
 
         {/* Severity Badge & Exact Contract Risk Score */}
-        <div className="flex items-center space-x-4 bg-[#101915] p-4 rounded-2xl border border-[#23352C] shrink-0">
+        <div className="flex items-center space-x-4 bg-[#0A0E17] p-4 rounded-2xl border border-[#1E2D47] shrink-0">
           <div className="text-right">
-            <div className="text-[10px] font-semibold text-[#89948C] uppercase tracking-wider font-mono">Risk Score</div>
-            <div className="text-2xl font-extrabold font-mono text-[#F4F5F0] flex items-baseline justify-end space-x-1">
+            <div className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider font-mono">Risk Score</div>
+            <div className="text-2xl font-extrabold font-mono text-[#F8FAFC] flex items-baseline justify-end space-x-1">
               <span>{risk_score}</span>
-              <span className="text-xs text-[#89948C]">/ 100</span>
+              <span className="text-xs text-[#94A3B8]">/ 100</span>
             </div>
           </div>
           <div className={`px-3.5 py-2 rounded-xl border font-bold text-xs font-mono ${riskBadge.bg}`}>
@@ -100,7 +100,7 @@ export default function VerificationReport({
             {discrepancies.map((disc, idx) => (
               <div 
                 key={idx}
-                className="p-3.5 rounded-2xl bg-[#101915]/80 border border-[#F87171]/20 text-[#F87171] text-xs flex items-start space-x-2.5 font-medium"
+                className="p-3.5 rounded-2xl bg-[#0A0E17]/80 border border-[#F87171]/20 text-[#F87171] text-xs flex items-start space-x-2.5 font-medium"
               >
                 <XCircle className="w-4 h-4 text-[#F87171] shrink-0 mt-0.5" />
                 <span>{disc}</span>
@@ -119,7 +119,7 @@ export default function VerificationReport({
             : 'border-[#F87171]/30 bg-[#F87171]/10'
         }`}>
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#F4F5F0]">Price Check</span>
+            <span className="text-xs font-semibold text-[#F8FAFC]">Price Check</span>
             {verifications?.price_check === 'PASS' ? (
               <span className="inline-flex items-center text-xs font-bold text-emerald-400 bg-emerald-500/15 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-mono">
                 <Check className="w-3 h-3 mr-1" /> PASS
@@ -130,7 +130,7 @@ export default function VerificationReport({
               </span>
             )}
           </div>
-          <p className="text-xs text-[#89948C]">Unit rate comparison between invoice line items and approved PO lines.</p>
+          <p className="text-xs text-[#94A3B8]">Unit rate comparison between invoice line items and approved PO lines.</p>
         </div>
 
         {/* Quantity Check */}
@@ -140,7 +140,7 @@ export default function VerificationReport({
             : 'border-[#F87171]/30 bg-[#F87171]/10'
         }`}>
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#F4F5F0]">Quantity Check</span>
+            <span className="text-xs font-semibold text-[#F8FAFC]">Quantity Check</span>
             {verifications?.quantity_check === 'PASS' ? (
               <span className="inline-flex items-center text-xs font-bold text-emerald-400 bg-emerald-500/15 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-mono">
                 <Check className="w-3 h-3 mr-1" /> PASS
@@ -151,7 +151,7 @@ export default function VerificationReport({
               </span>
             )}
           </div>
-          <p className="text-xs text-[#89948C]">Cross-matched units billed vs items acknowledged on Delivery Receipt.</p>
+          <p className="text-xs text-[#94A3B8]">Cross-matched units billed vs items acknowledged on Delivery Receipt.</p>
         </div>
 
         {/* Duplicate Check */}
@@ -161,7 +161,7 @@ export default function VerificationReport({
             : 'border-[#F87171]/30 bg-[#F87171]/10'
         }`}>
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#F4F5F0]">Duplicate Check</span>
+            <span className="text-xs font-semibold text-[#F8FAFC]">Duplicate Check</span>
             {verifications?.duplicate_check === 'PASS' ? (
               <span className="inline-flex items-center text-xs font-bold text-emerald-400 bg-emerald-500/15 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-mono">
                 <Check className="w-3 h-3 mr-1" /> PASS
@@ -172,34 +172,34 @@ export default function VerificationReport({
               </span>
             )}
           </div>
-          <p className="text-xs text-[#89948C]">SHA-256 historical ledger check for double billing or re-used hashes.</p>
+          <p className="text-xs text-[#94A3B8]">SHA-256 historical ledger check for double billing or re-used hashes.</p>
         </div>
       </div>
 
       {/* Extracted Entities Cards */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-[#182821] border border-[#23352C] space-y-6 shadow-studio-panel">
+      <div className="p-6 sm:p-8 rounded-3xl bg-[#111827] border border-[#1E2D47] space-y-6 shadow-studio-panel">
         <div>
-          <h2 className="font-display font-bold text-base text-[#F4F5F0]">Extracted Key Entities (Agreed Contract)</h2>
-          <p className="text-xs text-[#89948C]">Normalized values extracted directly from submitted documents</p>
+          <h2 className="font-display font-bold text-base text-[#F8FAFC]">Extracted Key Entities (Agreed Contract)</h2>
+          <p className="text-xs text-[#94A3B8]">Normalized values extracted directly from submitted documents</p>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="p-4 rounded-2xl bg-[#101915] border border-[#23352C]">
-            <div className="text-[11px] text-[#89948C] font-mono">Supplier</div>
-            <div className="text-sm font-semibold text-[#F4F5F0] mt-1">{extraction?.supplier || 'N/A'}</div>
+          <div className="p-4 rounded-2xl bg-[#0A0E17] border border-[#1E2D47]">
+            <div className="text-[11px] text-[#94A3B8] font-mono">Supplier</div>
+            <div className="text-sm font-semibold text-[#F8FAFC] mt-1">{extraction?.supplier || 'N/A'}</div>
           </div>
-          <div className="p-4 rounded-2xl bg-[#101915] border border-[#23352C]">
-            <div className="text-[11px] text-[#89948C] font-mono">Invoice Number</div>
-            <div className="text-sm font-mono font-semibold text-[#D9F99D] mt-1">{extraction?.invoice_number || 'N/A'}</div>
+          <div className="p-4 rounded-2xl bg-[#0A0E17] border border-[#1E2D47]">
+            <div className="text-[11px] text-[#94A3B8] font-mono">Invoice Number</div>
+            <div className="text-sm font-mono font-semibold text-[#38BDF8] mt-1">{extraction?.invoice_number || 'N/A'}</div>
           </div>
-          <div className="p-4 rounded-2xl bg-[#101915] border border-[#23352C]">
-            <div className="text-[11px] text-[#89948C] font-mono">Total Billed</div>
-            <div className="text-sm font-mono font-semibold text-[#F4F5F0] mt-1">
+          <div className="p-4 rounded-2xl bg-[#0A0E17] border border-[#1E2D47]">
+            <div className="text-[11px] text-[#94A3B8] font-mono">Total Billed</div>
+            <div className="text-sm font-mono font-semibold text-[#F8FAFC] mt-1">
               ₹{extraction?.total_amount ? extraction.total_amount.toLocaleString('en-IN') : '0'}
             </div>
           </div>
-          <div className="p-4 rounded-2xl bg-[#101915] border border-[#23352C]">
-            <div className="text-[11px] text-[#89948C] font-mono">Confidence Score</div>
+          <div className="p-4 rounded-2xl bg-[#0A0E17] border border-[#1E2D47]">
+            <div className="text-[11px] text-[#94A3B8] font-mono">Confidence Score</div>
             <div className="text-sm font-mono font-semibold text-emerald-400 mt-1">
               {extraction?.confidence_score ? `${Math.round(extraction.confidence_score * 100)}%` : '95%'}
             </div>
@@ -208,12 +208,12 @@ export default function VerificationReport({
 
         {/* 3-Way Itemized Comparison Table */}
         <div className="space-y-3">
-          <h3 className="text-xs font-mono font-semibold text-[#89948C] uppercase tracking-wider">
+          <h3 className="text-xs font-mono font-semibold text-[#94A3B8] uppercase tracking-wider">
             3-Way Itemized Comparison
           </h3>
-          <div className="overflow-x-auto rounded-2xl border border-[#23352C]">
+          <div className="overflow-x-auto rounded-2xl border border-[#1E2D47]">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#101915] text-[#89948C] uppercase tracking-wider font-mono font-semibold border-b border-[#23352C]">
+              <thead className="bg-[#0A0E17] text-[#94A3B8] uppercase tracking-wider font-mono font-semibold border-b border-[#1E2D47]">
                 <tr>
                   <th className="py-3.5 px-4">Item Description</th>
                   <th className="py-3.5 px-4">PO Unit Price</th>
@@ -223,12 +223,12 @@ export default function VerificationReport({
                   <th className="py-3.5 px-4 text-right">Result</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#23352C]/60 bg-[#101915]/50">
+              <tbody className="divide-y divide-[#1E2D47]/60 bg-[#0A0E17]/50">
                 <tr className="hover:bg-white/[0.02]">
-                  <td className="py-4 px-4 font-medium text-[#F4F5F0]">
+                  <td className="py-4 px-4 font-medium text-[#F8FAFC]">
                     Industrial Valves (Model X-50)
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#89948C]">
+                  <td className="py-4 px-4 font-mono text-[#94A3B8]">
                     ₹5,000
                   </td>
                   <td className="py-4 px-4 font-mono font-bold text-[#F87171]">
@@ -237,7 +237,7 @@ export default function VerificationReport({
                   <td className="py-4 px-4 font-mono text-[#F87171] font-bold">
                     +₹3,000 (+60%)
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#F4F5F0]">
+                  <td className="py-4 px-4 font-mono text-[#F8FAFC]">
                     59 units (Match)
                   </td>
                   <td className="py-4 px-4 text-right">
@@ -247,19 +247,19 @@ export default function VerificationReport({
                   </td>
                 </tr>
                 <tr className="hover:bg-white/[0.02]">
-                  <td className="py-4 px-4 font-medium text-[#F4F5F0]">
+                  <td className="py-4 px-4 font-medium text-[#F8FAFC]">
                     High-Temp Gaskets Kit
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#89948C]">
+                  <td className="py-4 px-4 font-mono text-[#94A3B8]">
                     ₹1,200
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#F4F5F0]">
+                  <td className="py-4 px-4 font-mono text-[#F8FAFC]">
                     ₹1,200
                   </td>
                   <td className="py-4 px-4 font-mono text-emerald-400">
                     ₹0 (0%)
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#F4F5F0]">
+                  <td className="py-4 px-4 font-mono text-[#F8FAFC]">
                     100 units (Match)
                   </td>
                   <td className="py-4 px-4 text-right">
@@ -274,25 +274,25 @@ export default function VerificationReport({
         </div>
       </div>
 
-      {/* Action Footer: Identical h-11 heights on all 3 buttons for perfect visual balance */}
+      {/* Action Footer: Identical h-11 heights */}
       <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
         <button
           onClick={onNewVerification}
-          className="h-11 px-6 rounded-full bg-[#182821] hover:bg-[#1E342B] text-[#F4F5F0] border border-[#23352C] text-xs font-semibold transition inline-flex items-center justify-center box-border"
+          className="h-11 px-6 rounded-full bg-[#111827] hover:bg-[#172236] text-[#F8FAFC] border border-[#1E2D47] text-xs font-semibold transition inline-flex items-center justify-center box-border"
         >
           Verify Another Document
         </button>
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={onNavigateToAudit}
-            className="h-11 px-6 rounded-full bg-[#182821] hover:bg-[#1E342B] text-[#D9F99D] border border-[#23352C] text-xs font-semibold transition inline-flex items-center justify-center space-x-1.5 box-border"
+            className="h-11 px-6 rounded-full bg-[#111827] hover:bg-[#172236] text-[#38BDF8] border border-[#1E2D47] text-xs font-semibold transition inline-flex items-center justify-center space-x-1.5 box-border"
           >
             <History className="w-3.5 h-3.5" />
             <span>View SHA-256 Hashes</span>
           </button>
           <button
             onClick={onNavigateToQueue}
-            className="h-11 px-7 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] text-xs font-bold shadow-lime-glow transition inline-flex items-center justify-center space-x-1.5 transform active:scale-95 box-border"
+            className="h-11 px-7 rounded-full bg-[#38BDF8] hover:bg-[#0EA5E9] text-[#0A0E17] text-xs font-bold shadow-cyan-glow transition inline-flex items-center justify-center space-x-1.5 transform active:scale-95 box-border"
           >
             <ClipboardList className="w-3.5 h-3.5" />
             <span>Open in Review Queue</span>

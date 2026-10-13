@@ -8,19 +8,19 @@ export default {
     extend: {
       colors: {
         studio: {
-          bg: '#101915',        // Primary background
-          surface: '#182821',   // Secondary dark surface
-          elevated: '#1F342B',  // Elevated dark surface
-          border: '#263D33',    // Subtle border
-          accent: '#D9F99D',    // Primary accent (lime)
-          'accent-hover': '#C7EE84',
-          paper: '#F4F5F0',     // Main light surface
-          'paper-dark': '#E6E7E0',
-          'dark-text': '#172019',
-          muted: '#89948C',     // Secondary muted text
-          success: '#86EFAC',
-          warning: '#FBBF24',
-          error: '#F87171',
+          bg: '#0A0E17',        // Deep Midnight Obsidian
+          surface: '#111827',   // Sleek Dark Slate Surface
+          elevated: '#172236',  // Elevated Card Surface
+          border: '#1E2D47',    // Refined Slate Navy Border
+          accent: '#38BDF8',    // Electric Sky / Cyan
+          'accent-hover': '#0EA5E9',
+          paper: '#F8FAFC',     // Crisp Alabaster
+          'paper-dark': '#E2E8F0',
+          'dark-text': '#0F172A',
+          muted: '#94A3B8',     // Sleek Muted Slate
+          success: '#34D399',   // Vivid Emerald
+          warning: '#FBBF24',   // Warm Amber
+          error: '#F87171',     // Crimson
         }
       },
       fontFamily: {
@@ -29,8 +29,8 @@ export default {
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
-        'lime-glow': '0 0 35px -5px rgba(217, 249, 157, 0.25)',
-        'studio-panel': '0 20px 40px -15px rgba(0, 0, 0, 0.5)',
+        'cyan-glow': '0 0 35px -5px rgba(56, 189, 248, 0.28)',
+        'studio-panel': '0 20px 40px -15px rgba(0, 0, 0, 0.6)',
       }
     },
   },

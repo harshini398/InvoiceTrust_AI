@@ -162,12 +162,12 @@ export default function App() {
   const pendingCount = queueItems.filter(item => item.status === 'PENDING_REVIEW').length;
 
   return (
-    <div className="min-h-screen bg-[#101915] text-[#F4F5F0] flex flex-col font-sans selection:bg-[#D9F99D] selection:text-[#101915] relative">
+    <div className="min-h-screen bg-[#0A0E17] text-[#F8FAFC] flex flex-col font-sans selection:bg-[#38BDF8] selection:text-[#0A0E17] relative">
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 animate-bounce p-4 rounded-2xl bg-[#182821] border border-[#D9F99D]/50 text-[#D9F99D] shadow-2xl text-xs font-mono font-semibold flex items-center space-x-2.5">
-          <span className="w-2 h-2 rounded-full bg-[#D9F99D] animate-ping" />
+        <div className="fixed bottom-6 right-6 z-50 animate-bounce p-4 rounded-2xl bg-[#111827] border border-[#38BDF8]/50 text-[#38BDF8] shadow-2xl text-xs font-mono font-semibold flex items-center space-x-2.5">
+          <span className="w-2 h-2 rounded-full bg-[#38BDF8] animate-ping" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -200,14 +200,14 @@ export default function App() {
 
         {activeTab === 'table' && (
           <div className="space-y-6 animate-fadeIn pb-12">
-            <div className="pb-4 border-b border-[#23352C]">
-              <span className="text-xs font-mono uppercase tracking-widest text-[#D9F99D]">
+            <div className="pb-4 border-b border-[#1E2D47]">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#38BDF8]">
                 Data Layer
               </span>
-              <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[#F4F5F0] tracking-tight mt-1">
+              <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[#F8FAFC] tracking-tight mt-1">
                 Invoices Ledger Records
               </h1>
-              <p className="text-xs sm:text-sm text-[#89948C]">
+              <p className="text-xs sm:text-sm text-[#94A3B8]">
                 Structured SQLite invoices table with live search, payment statuses, and risk scoring.
               </p>
             </div>

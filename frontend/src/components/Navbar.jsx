@@ -47,8 +47,8 @@ export default function Navbar({ activeTab, setActiveTab, pendingCount, backendO
   return (
     <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${
       scrolled 
-        ? 'bg-[#101915]/95 backdrop-blur-xl border-b border-[#23352C] py-2.5 shadow-studio-panel' 
-        : 'bg-[#101915]/75 backdrop-blur-md border-b border-white/[0.06] py-3.5'
+        ? 'bg-[#0A0E17]/95 backdrop-blur-xl border-b border-[#1E2D47] py-2.5 shadow-studio-panel' 
+        : 'bg-[#0A0E17]/80 backdrop-blur-md border-b border-white/[0.06] py-3.5'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-11">
@@ -62,8 +62,8 @@ export default function Navbar({ activeTab, setActiveTab, pendingCount, backendO
             <BusinessLogo />
           </button>
 
-          {/* Center: Desktop Navigation Tabs (Consistent height h-9, perfectly aligned) */}
-          <nav className="hidden lg:flex items-center space-x-1 p-1 bg-[#182821]/90 rounded-full border border-[#23352C] h-10 box-border">
+          {/* Center: Desktop Navigation Tabs (Consistent height h-9) */}
+          <nav className="hidden lg:flex items-center space-x-1 p-1 bg-[#111827]/90 rounded-full border border-[#1E2D47] h-10 box-border">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
@@ -73,16 +73,16 @@ export default function Navbar({ activeTab, setActiveTab, pendingCount, backendO
                   onClick={() => handleSelectTab(item.id)}
                   className={`h-8 inline-flex items-center justify-center space-x-2 px-3.5 rounded-full text-xs font-medium transition-all duration-150 whitespace-nowrap ${
                     isActive
-                      ? 'bg-[#D9F99D] text-[#101915] font-bold shadow-sm'
-                      : 'text-[#89948C] hover:text-[#F4F5F0] hover:bg-white/[0.04]'
+                      ? 'bg-[#38BDF8] text-[#0A0E17] font-bold shadow-sm'
+                      : 'text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/[0.04]'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#101915]' : 'text-[#89948C]'}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#0A0E17]' : 'text-[#94A3B8]'}`} />
                   <span>{item.label}</span>
                   {item.badge !== null && item.badge !== undefined && (
                     <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
                       isActive 
-                        ? 'bg-[#101915] text-[#D9F99D]' 
+                        ? 'bg-[#0A0E17] text-[#38BDF8]' 
                         : 'bg-[#F87171]/20 text-[#F87171] border border-[#F87171]/30'
                     }`}>
                       {item.badge}
@@ -93,34 +93,34 @@ export default function Navbar({ activeTab, setActiveTab, pendingCount, backendO
             })}
           </nav>
 
-          {/* Right: Status Pill & CTA (Both locked to exact h-9 for pristine vertical alignment) */}
+          {/* Right: Status Pill & CTA (Locked to exact h-9) */}
           <div className="flex items-center space-x-2.5 shrink-0">
             {/* Status indicator */}
             <div 
               className={`hidden sm:inline-flex items-center space-x-2 h-9 px-3.5 rounded-full text-[11px] font-mono border box-border ${
                 backendOnline 
                   ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
-                  : 'bg-[#182821] text-[#89948C] border-[#23352C]'
+                  : 'bg-[#111827] text-[#94A3B8] border-[#1E2D47]'
               }`}
               title={backendOnline ? "Connected to FastAPI :8000" : "Standalone mode (Contract Simulation Active)"}
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${backendOnline ? 'bg-emerald-400 animate-pulse' : 'bg-[#D9F99D]'}`} />
+              <span className={`w-1.5 h-1.5 rounded-full ${backendOnline ? 'bg-emerald-400 animate-pulse' : 'bg-[#38BDF8]'}`} />
               <span>{backendOnline ? 'FastAPI :8000' : 'Contract Active'}</span>
             </div>
 
             {/* Primary Action Button */}
             <button
               onClick={() => handleSelectTab('upload')}
-              className="h-9 inline-flex items-center justify-center space-x-1.5 px-4.5 rounded-full bg-[#D9F99D] hover:bg-[#C7EE84] text-[#101915] text-xs font-bold tracking-tight transition-all duration-150 shadow-lime-glow hover:shadow-lg transform active:scale-95 box-border"
+              className="h-9 inline-flex items-center justify-center space-x-1.5 px-4.5 rounded-full bg-[#38BDF8] hover:bg-[#0EA5E9] text-[#0A0E17] text-xs font-bold tracking-tight transition-all duration-150 shadow-cyan-glow hover:shadow-lg transform active:scale-95 box-border"
             >
               <span>Verify an Invoice</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-[#101915] stroke-[2.5]" />
+              <ArrowUpRight className="w-3.5 h-3.5 text-[#0A0E17] stroke-[2.5]" />
             </button>
 
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden h-9 w-9 inline-flex items-center justify-center rounded-xl bg-[#182821] border border-[#23352C] text-[#89948C] hover:text-[#F4F5F0] transition box-border"
+              className="lg:hidden h-9 w-9 inline-flex items-center justify-center rounded-xl bg-[#111827] border border-[#1E2D47] text-[#94A3B8] hover:text-[#F8FAFC] transition box-border"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -130,7 +130,7 @@ export default function Navbar({ activeTab, setActiveTab, pendingCount, backendO
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden mt-3 pt-3 border-t border-[#23352C] space-y-1 animate-fadeIn">
+          <div className="lg:hidden mt-3 pt-3 border-t border-[#1E2D47] space-y-1 animate-fadeIn">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
@@ -140,8 +140,8 @@ export default function Navbar({ activeTab, setActiveTab, pendingCount, backendO
                   onClick={() => handleSelectTab(item.id)}
                   className={`w-full h-10 flex items-center justify-between px-4 rounded-xl text-xs font-medium transition ${
                     isActive
-                      ? 'bg-[#D9F99D] text-[#101915] font-bold'
-                      : 'text-[#89948C] hover:text-[#F4F5F0] hover:bg-[#182821]'
+                      ? 'bg-[#38BDF8] text-[#0A0E17] font-bold'
+                      : 'text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#111827]'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
