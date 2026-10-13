@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+pdfplumber
+PyMuPDF
+pytesseract
+requests
+python-multipart
+
