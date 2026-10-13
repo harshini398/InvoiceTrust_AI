@@ -1,117 +1,122 @@
 import React from 'react';
 import { 
-  ShieldAlert, 
-  LayoutDashboard, 
-  UploadCloud, 
-  FileCheck2, 
+  ChevronDown, 
+  Sparkles, 
+  ShieldCheck, 
+  Layers, 
+  FileCheck, 
   History, 
   ClipboardCheck, 
-  Activity 
+  Radio
 } from 'lucide-react';
 
-export default function Navbar({ activeTab, setActiveTab, pendingCount, backendOnline }) {
-  const navItems = [
-    { id: 'dashboard', label: 'Overview Dashboard', icon: LayoutDashboard },
-    { id: 'upload', label: 'Upload & Verify', icon: UploadCloud },
-    { id: 'report', label: 'Verification Report', icon: FileCheck2 },
-    { id: 'audit', label: 'Audit Trail', icon: History },
+export default function Navbar({ 
+  activeTab, 
+  setActiveTab, 
+  pendingCount, 
+  backendOnline,
+  onOpenUpload 
+}) {
+  const navLinks = [
+    { id: 'dashboard', label: 'Overview' },
+    { id: 'upload', label: 'Upload & Match' },
+    { id: 'report', label: 'Verification Report' },
+    { id: 'audit', label: 'Audit Trail' },
     { 
       id: 'queue', 
-      label: 'Review Queue', 
-      icon: ClipboardCheck,
+      label: 'Review Queue',
       badge: pendingCount > 0 ? pendingCount : null 
     },
   ];
 
   return (
-    <header className="border-b border-slate-800/80 bg-slate-900/70 backdrop-blur-md sticky top-0 z-50">
+    <header className="glass-nav sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo & Brand */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('dashboard')}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-400 p-[1.5px] flex items-center justify-center shadow-lg shadow-indigo-500/20">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <ShieldAlert className="w-5 h-5 text-indigo-400" />
-              </div>
+        <div className="flex items-center justify-between h-20">
+          
+          {/* Logo matching screenshot: "// invoicetrust" */}
+          <div 
+            className="flex items-center space-x-2.5 cursor-pointer group"
+            onClick={() => setActiveTab('dashboard')}
+          >
+            <div className="flex items-center tracking-tighter text-[#00F59B] text-xl font-mono font-black group-hover:scale-105 transition-transform">
+              //
             </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
-                  InvoiceTrust<span className="text-indigo-400 font-extrabold">.AI</span>
-                </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                  v1.0
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-400 font-medium">3-Way Reconciliation & Fraud Prevention</p>
-            </div>
+            <span className="font-display font-bold text-xl tracking-tight text-white group-hover:text-slate-100 transition">
+              invoicetrust<span className="text-[#00F59B] font-extrabold text-xs ml-1 uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-[#00F59B]/10 border border-[#00F59B]/20">ai</span>
+            </span>
           </div>
 
-          {/* Navigation Tabs */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = activeTab === item.id;
+          {/* Center Navigation Links matching screenshot */}
+          <nav className="hidden lg:flex items-center space-x-7">
+            {navLinks.map((link) => {
+              const isActive = activeTab === link.id;
               return (
                 <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 relative ${
-                    isActive
-                      ? 'bg-indigo-600/15 text-indigo-300 border border-indigo-500/30 shadow-inner shadow-indigo-500/10'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
+                  key={link.id}
+                  onClick={() => setActiveTab(link.id)}
+                  className={`relative py-1 text-sm font-medium transition-colors duration-150 flex items-center space-x-1.5 ${
+                    isActive 
+                      ? 'text-white font-semibold' 
+                      : 'text-slate-300/80 hover:text-white'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-400'}`} />
-                  <span>{item.label}</span>
-                  {item.badge !== null && item.badge !== undefined && (
-                    <span className="ml-1.5 px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">
-                      {item.badge}
+                  <span>{link.label}</span>
+                  {link.badge !== null && link.badge !== undefined && (
+                    <span className="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                      {link.badge}
                     </span>
+                  )}
+                  {isActive && (
+                    <span className="absolute -bottom-2 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00F59B] to-transparent rounded-full" />
                   )}
                 </button>
               );
             })}
           </nav>
 
-          {/* Backend Status Pill */}
+          {/* Right Action: Pill Button matching "REQUEST DEMO" in screenshot */}
           <div className="flex items-center space-x-3">
+            {/* Status indicator */}
             <div 
-              className={`flex items-center space-x-2 px-3 py-1.5 rounded-full text-xs font-mono font-medium border ${
+              className={`hidden sm:flex items-center space-x-1.5 px-3 py-1 rounded-full text-[11px] font-mono border ${
                 backendOnline 
                   ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
-                  : 'bg-amber-500/10 text-amber-300 border-amber-500/30'
+                  : 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20'
               }`}
-              title={backendOnline ? "Connected to FastAPI :8000" : "Standalone mode (Mock contract simulation active)"}
             >
-              <span className={`w-2 h-2 rounded-full ${backendOnline ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-              <span className="hidden sm:inline">
-                {backendOnline ? 'API :8000 Connected' : 'Simulated Contract Mode'}
-              </span>
+              <span className={`w-1.5 h-1.5 rounded-full ${backendOnline ? 'bg-emerald-400 animate-pulse' : 'bg-cyan-400'}`} />
+              <span>{backendOnline ? 'FastAPI :8000' : 'Contract Mock Active'}</span>
             </div>
+
+            {/* Neon Green Pill Button */}
+            <button
+              onClick={onOpenUpload}
+              className="px-5 py-2.5 rounded-full bg-[#00F59B] hover:bg-[#00DC8C] text-slate-950 font-bold uppercase tracking-wider text-xs transition duration-150 shadow-neon hover:shadow-[0_0_30px_rgba(0,245,155,0.45)] transform active:scale-95"
+            >
+              RUN 3-WAY MATCH
+            </button>
           </div>
         </div>
 
         {/* Mobile Navigation bar */}
-        <div className="flex md:hidden overflow-x-auto py-2.5 space-x-1 scrollbar-none border-t border-slate-800">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
+        <div className="flex lg:hidden overflow-x-auto py-2.5 space-x-3 scrollbar-none border-t border-white/5">
+          {navLinks.map((link) => {
+            const isActive = activeTab === link.id;
             return (
               <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs whitespace-nowrap font-medium ${
+                key={link.id}
+                onClick={() => setActiveTab(link.id)}
+                className={`flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs whitespace-nowrap font-medium transition ${
                   isActive
-                    ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30'
+                    ? 'bg-white/10 text-white font-semibold'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
-                <span>{item.label}</span>
-                {item.badge && (
+                <span>{link.label}</span>
+                {link.badge && (
                   <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-rose-500/20 text-rose-400">
-                    {item.badge}
+                    {link.badge}
                   </span>
                 )}
               </button>

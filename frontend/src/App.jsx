@@ -95,7 +95,6 @@ export default function App() {
         : `Simulated verification processed (Agreed Contract): ${data.invoice_id}`
     );
 
-    // Switch directly to verification report screen
     setActiveTab('report');
   };
 
@@ -114,7 +113,6 @@ export default function App() {
       )
     );
 
-    // Add decision event to Audit Trail
     const now = new Date();
     const timestampStr = now.toISOString().replace('T', ' ').substring(0, 19);
 
@@ -135,11 +133,12 @@ export default function App() {
   const pendingCount = queueItems.filter(item => item.status === 'PENDING_REVIEW').length;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-600 selection:text-white">
+    <div className="min-h-screen text-slate-100 flex flex-col font-sans selection:bg-[#00F59B] selection:text-slate-950">
+      
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 animate-bounce bg-slate-900 border border-indigo-500/50 text-indigo-200 px-4 py-3 rounded-xl shadow-2xl text-xs font-semibold flex items-center space-x-2">
-          <span className="w-2 h-2 rounded-full bg-indigo-400" />
+        <div className="fixed bottom-6 right-6 z-50 animate-bounce glass-card border-[#00F59B]/40 text-white px-5 py-3 rounded-full shadow-neon text-xs font-semibold flex items-center space-x-2">
+          <span className="w-2 h-2 rounded-full bg-[#00F59B]" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -150,15 +149,18 @@ export default function App() {
         setActiveTab={setActiveTab} 
         pendingCount={pendingCount}
         backendOnline={backendOnline}
+        onOpenUpload={() => setActiveTab('upload')}
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {activeTab === 'dashboard' && (
           <OverviewDashboard
             queueItems={queueItems}
             onNavigateToUpload={() => setActiveTab('upload')}
             onNavigateToQueue={() => setActiveTab('queue')}
+            onNavigateToAudit={() => setActiveTab('audit')}
+            onNavigateToReport={() => setActiveTab('report')}
             onSelectInvoice={(id) => {
               const matched = queueItems.find(q => q.id === id);
               if (matched) {
@@ -210,14 +212,17 @@ export default function App() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/80 py-6 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div>
-            InvoiceTrust AI • Hackathon Team Workspace (Branch: <span className="text-indigo-400 font-mono">feature/frontend-ui</span>)
+      {/* Footer styled to match luxury SaaS aesthetic */}
+      <footer className="border-t border-white/5 bg-[#060913]/90 py-8 text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center space-x-2">
+            <span className="font-mono text-[#00F59B] font-bold">//</span>
+            <span className="text-white font-display font-semibold">invoicetrust.ai</span>
+            <span className="text-slate-600">|</span>
+            <span className="text-slate-400">Branch: <span className="font-mono text-sky-400">feature/frontend-ui</span></span>
           </div>
-          <div>
-            Stack: React 19 + Vite + Tailwind CSS • SHA-256 Document Cryptography
+          <div className="text-slate-400 text-center sm:text-right">
+            Enterprise 3-Way Match & Fraud Prevention • Built with React 19 + Tailwind CSS
           </div>
         </div>
       </footer>

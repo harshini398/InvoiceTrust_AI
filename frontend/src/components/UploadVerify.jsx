@@ -9,7 +9,8 @@ import {
   ShieldAlert, 
   FileCheck2,
   AlertCircle,
-  HelpCircle
+  HelpCircle,
+  CheckCircle2
 } from 'lucide-react';
 
 export default function UploadVerify({ onVerifySuccess }) {
@@ -47,7 +48,6 @@ export default function UploadVerify({ onVerifySuccess }) {
     }));
   };
 
-  // Prefill mock sample documents for instant testing during demo
   const loadSampleDocs = () => {
     setFiles({
       invoice: new File(["Sample Invoice Content"], "INV-1042_ABC_Traders.pdf", { type: "application/pdf" }),
@@ -68,7 +68,6 @@ export default function UploadVerify({ onVerifySuccess }) {
     setErrorMsg(null);
     setCurrentStep(0);
 
-    // Step cycle animation for realistic feedback
     const interval = setInterval(() => {
       setCurrentStep((prev) => (prev < verificationSteps.length - 1 ? prev + 1 : prev));
     }, 450);
@@ -88,33 +87,33 @@ export default function UploadVerify({ onVerifySuccess }) {
     }
   };
 
-  const renderUploadBox = (id, label, description, fileKey, sampleName) => {
+  const renderUploadBox = (id, label, description, fileKey) => {
     const file = files[fileKey];
 
     return (
-      <div className={`relative rounded-xl border-2 border-dashed p-6 transition-all duration-200 ${
+      <div className={`relative rounded-3xl p-6 transition-all duration-200 border ${
         file 
-          ? 'border-emerald-500/40 bg-emerald-950/10' 
-          : 'border-slate-800 hover:border-slate-700 bg-slate-900/40 hover:bg-slate-900/60'
+          ? 'border-[#00F59B]/40 bg-[#00F59B]/5 shadow-[0_0_20px_rgba(0,245,155,0.08)]' 
+          : 'border-white/10 hover:border-blue-500/40 bg-navy-900/50 hover:bg-navy-850/60'
       }`}>
         <div className="flex flex-col items-center text-center">
           {file ? (
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-3">
-              <CheckCircle className="w-6 h-6" />
+            <div className="w-12 h-12 rounded-2xl bg-[#00F59B]/20 border border-[#00F59B]/30 flex items-center justify-center text-[#00F59B] mb-3">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
           ) : (
-            <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-slate-400 mb-3">
-              <UploadCloud className="w-6 h-6 text-indigo-400" />
+            <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 mb-3 group-hover:text-white">
+              <UploadCloud className="w-6 h-6 text-sky-400" />
             </div>
           )}
 
-          <h3 className="text-sm font-semibold text-slate-200 mb-1">{label}</h3>
+          <h3 className="text-sm font-bold text-white mb-1 font-display">{label}</h3>
           <p className="text-xs text-slate-400 mb-4 max-w-xs">{description}</p>
 
           {file ? (
-            <div className="w-full bg-slate-950/80 border border-slate-800 rounded-lg p-2.5 flex items-center justify-between">
+            <div className="w-full bg-[#060913]/90 border border-white/10 rounded-xl p-2.5 flex items-center justify-between">
               <div className="flex items-center space-x-2 truncate">
-                <FileText className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                <FileText className="w-4 h-4 text-[#00F59B] flex-shrink-0" />
                 <span className="text-xs text-slate-200 truncate font-mono">{file.name}</span>
               </div>
               <button
@@ -127,8 +126,8 @@ export default function UploadVerify({ onVerifySuccess }) {
               </button>
             </div>
           ) : (
-            <label className="cursor-pointer inline-flex items-center space-x-2 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition">
-              <span>Choose File</span>
+            <label className="cursor-pointer inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs font-semibold text-white border border-white/10 transition">
+              <span>Choose Document</span>
               <input
                 type="file"
                 accept=".pdf,.png,.jpg,.jpeg,.json"
@@ -143,27 +142,29 @@ export default function UploadVerify({ onVerifySuccess }) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-fadeIn">
+    <div className="max-w-4xl mx-auto space-y-8 animate-fadeIn">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-white/10">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Upload & 3-Way Match Verification</h1>
-          <p className="text-sm text-slate-400">
-            Submit the 3 corroborating documents to evaluate discrepancies, calculate risk, and register SHA-256 integrity proofs.
+          <h1 className="text-2xl sm:text-3xl font-bold font-display text-white tracking-tight">
+            Upload & 3-Way Verification
+          </h1>
+          <p className="text-sm text-slate-400 mt-1">
+            Ingest corroborating procurement records to evaluate line-item pricing and verify SHA-256 signatures.
           </p>
         </div>
         <button
           type="button"
           onClick={loadSampleDocs}
-          className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-medium transition self-start sm:self-auto"
+          className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 text-xs font-semibold transition self-start sm:self-auto shadow-sm"
         >
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Load Hackathon Sample Files</span>
+          <Sparkles className="w-3.5 h-3.5 text-[#00F59B]" />
+          <span>Load Hackathon Samples</span>
         </button>
       </div>
 
       {errorMsg && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm flex items-start space-x-3">
+        <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm flex items-start space-x-3">
           <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5 text-rose-400" />
           <div>
             <p className="font-semibold">Document Requirement Notice</p>
@@ -174,58 +175,58 @@ export default function UploadVerify({ onVerifySuccess }) {
 
       {/* Upload Cards Grid */}
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {renderUploadBox(
             "invoice",
-            "1. Vendor Invoice (PDF)",
-            "Contains supplier claim, line item rates, and total payable amount.",
+            "1. Vendor Invoice",
+            "Contains billed line items, unit rates, and final payment claim.",
             "invoice"
           )}
           {renderUploadBox(
             "po",
-            "2. Purchase Order (PO)",
-            "Contains authorized price agreements, approved items, and delivery terms.",
+            "2. Purchase Order",
+            "Contains pre-authorized item pricing, quantities, and terms.",
             "po"
           )}
           {renderUploadBox(
             "dr",
-            "3. Delivery Receipt (DR)",
+            "3. Delivery Receipt",
             "Warehouse slip verifying goods physically received and inspected.",
             "deliveryReceipt"
           )}
         </div>
 
-        {/* Verification Progress Modal / Panel */}
+        {/* Verification Progress Panel */}
         {loading ? (
-          <div className="p-6 rounded-2xl bg-slate-900 border border-indigo-500/30 shadow-2xl space-y-4 text-center">
-            <div className="w-12 h-12 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin mx-auto" />
+          <div className="glass-card p-8 rounded-3xl border-blue-500/40 shadow-2xl space-y-4 text-center">
+            <div className="w-12 h-12 rounded-full border-2 border-[#00F59B] border-t-transparent animate-spin mx-auto" />
             <div>
-              <h3 className="text-base font-semibold text-white">Running 3-Way Match Verification</h3>
-              <p className="text-xs text-indigo-300 font-mono mt-1">
+              <h3 className="text-base font-bold text-white font-display">Executing 3-Way Match Verification</h3>
+              <p className="text-xs text-[#00F59B] font-mono mt-1">
                 {verificationSteps[currentStep]}
               </p>
             </div>
             {/* Step progress bar */}
-            <div className="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800 max-w-md mx-auto">
+            <div className="w-full bg-[#060913] rounded-full h-2 overflow-hidden border border-white/10 max-w-md mx-auto">
               <div 
-                className="bg-gradient-to-r from-indigo-500 to-cyan-400 h-full transition-all duration-300"
+                className="bg-gradient-to-r from-sky-400 via-teal-300 to-[#00F59B] h-full transition-all duration-300"
                 style={{ width: `${((currentStep + 1) / verificationSteps.length) * 100}%` }}
               />
             </div>
           </div>
         ) : (
-          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="glass-card rounded-3xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-5">
             <div className="flex items-center space-x-3 text-xs text-slate-400">
               <HelpCircle className="w-4 h-4 text-slate-500 flex-shrink-0" />
               <span>
-                Files are hashed locally using SHA-256 for tamper detection before submitting to the verification model.
+                SHA-256 digests are computed in-memory before submitting to prevent tampering or replay attacks.
               </span>
             </div>
             <button
               type="submit"
-              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-semibold text-sm transition shadow-lg shadow-indigo-600/30 hover:shadow-indigo-500/40"
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-3.5 rounded-full bg-[#00F59B] hover:bg-[#00DC8C] text-slate-950 font-bold uppercase tracking-wider text-xs shadow-neon transition transform hover:scale-[1.02] active:scale-95"
             >
-              <span>Run Verification</span>
+              <span>RUN VERIFICATION</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
