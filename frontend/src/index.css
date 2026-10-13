@@ -4,17 +4,24 @@
 
 @layer base {
   body {
-    @apply bg-studio-bg text-studio-paper antialiased font-sans selection:bg-studio-accent selection:text-studio-dark-text min-h-screen overflow-x-hidden;
     background-color: #101915;
+    color: #F4F5F0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     background-image: 
-      radial-gradient(ellipse 80% 40% at 50% -5%, rgba(217, 249, 157, 0.09), transparent 60%),
+      radial-gradient(ellipse 80% 40% at 50% -5%, rgba(217, 249, 157, 0.08), transparent 60%),
       radial-gradient(circle at 85% 30%, rgba(24, 40, 33, 0.4), transparent 40%),
       linear-gradient(to bottom, rgba(16, 25, 21, 0.95), #101915);
     background-attachment: fixed;
   }
 
   #root {
-    @apply min-h-screen flex flex-col;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
   h1, h2, h3, .font-display {
