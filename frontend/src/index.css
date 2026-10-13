@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-[#060913] text-slate-100 antialiased font-sans selection:bg-[#00F59B] selection:text-slate-950 min-h-screen overflow-x-hidden;
+    @apply bg-[#060913] text-slate-100 antialiased font-sans min-h-screen overflow-x-hidden;
     background-color: #060913;
     background-image: 
       radial-gradient(ellipse 70% 60% at 90% 15%, rgba(29, 78, 216, 0.35) 0%, rgba(9, 14, 31, 0) 70%),
@@ -14,7 +14,13 @@
   }
 
   h1, h2, h3, h4 {
-    @apply font-display tracking-tight text-white;
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    @apply tracking-tight text-white;
+  }
+
+  ::selection {
+    background-color: #00F59B;
+    color: #020617;
   }
 }
 
