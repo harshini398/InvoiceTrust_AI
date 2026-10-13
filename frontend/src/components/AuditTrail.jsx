@@ -6,12 +6,15 @@ import {
   Lock, 
   Clock, 
   CheckCircle2, 
-  Terminal
+  Terminal,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 
 export default function AuditTrail({ hashes, auditLogs, currentInvoiceId }) {
   const [copiedKey, setCopiedKey] = useState(null);
   const [logFilter, setLogFilter] = useState('ALL');
+  const [expandedLogId, setExpandedLogId] = useState(null);
 
   const copyToClipboard = (text, key) => {
     navigator.clipboard.writeText(text);
@@ -51,21 +54,21 @@ export default function AuditTrail({ hashes, auditLogs, currentInvoiceId }) {
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-fadeIn pb-12">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#23352C]">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="text-[11px] uppercase font-mono text-slate-400">Cryptographic Integrity</span>
-            <span className="text-slate-600">•</span>
-            <span className="text-xs font-mono text-orange-400 font-bold">{currentInvoiceId || 'INV-1042'}</span>
+            <span className="text-[11px] uppercase font-mono tracking-wider text-[#D9F99D]">Cryptographic Integrity</span>
+            <span className="text-[#89948C]">•</span>
+            <span className="text-xs font-mono text-[#F4F5F0] font-bold">{currentInvoiceId || 'INV-1042'}</span>
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight mt-0.5">
+          <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[#F4F5F0] tracking-tight mt-1">
             Immutable Audit Trail & Proofs
           </h1>
-          <p className="text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-[#89948C]">
             SHA-256 cryptographic anchors and chronological trace for fraud non-repudiation.
           </p>
         </div>
-        <div className="self-start sm:self-auto inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
+        <div className="self-start sm:self-auto inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-[#182821] border border-[#23352C] text-[#D9F99D] text-xs font-mono font-medium">
           <Lock className="w-3.5 h-3.5" />
           <span>Cryptographically Sealed</span>
         </div>
@@ -78,30 +81,30 @@ export default function AuditTrail({ hashes, auditLogs, currentInvoiceId }) {
           return (
             <div 
               key={doc.key}
-              className="glass-panel rounded-2xl p-5 space-y-3.5 shadow-sm"
+              className="p-5 rounded-3xl bg-[#182821] border border-[#23352C] hover:border-[#D9F99D]/40 space-y-3.5 transition shadow-studio-panel"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  <span className="text-xs font-semibold text-slate-200">{doc.title}</span>
+                  <ShieldCheck className="w-4 h-4 text-[#D9F99D]" />
+                  <span className="text-xs font-semibold text-[#F4F5F0]">{doc.title}</span>
                 </div>
-                <span className="text-[10px] font-mono uppercase bg-white/[0.06] text-slate-300 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-mono uppercase bg-[#101915] text-[#89948C] px-2 py-0.5 rounded-full border border-[#23352C]">
                   {doc.type}
                 </span>
               </div>
 
               {/* Hash Display */}
-              <div className="p-3 rounded-xl bg-canvas-950 border border-white/[0.06] space-y-2.5">
-                <p className="text-[11px] font-mono text-slate-300 break-all select-all leading-relaxed">
+              <div className="p-3 rounded-2xl bg-[#101915] border border-[#23352C] space-y-2.5">
+                <p className="text-[11px] font-mono text-[#89948C] break-all select-all leading-relaxed">
                   {doc.hash}
                 </p>
-                <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
-                  <span className="text-[10px] text-emerald-400 flex items-center">
+                <div className="flex items-center justify-between pt-2 border-t border-[#23352C]">
+                  <span className="text-[10px] font-mono text-emerald-400 flex items-center">
                     <CheckCircle2 className="w-3 h-3 mr-1" /> Validated
                   </span>
                   <button
                     onClick={() => copyToClipboard(doc.hash, doc.key)}
-                    className="inline-flex items-center space-x-1.5 text-[11px] text-orange-400 hover:text-orange-300 font-medium transition"
+                    className="inline-flex items-center space-x-1.5 text-[11px] font-mono text-[#D9F99D] hover:text-[#C7EE84] transition"
                   >
                     {isCopied ? (
                       <>
@@ -123,23 +126,27 @@ export default function AuditTrail({ hashes, auditLogs, currentInvoiceId }) {
       </div>
 
       {/* Chronological Event Timeline */}
-      <div className="glass-panel rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
+      <div className="p-6 sm:p-8 rounded-3xl bg-[#182821] border border-[#23352C] space-y-6 shadow-studio-panel">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-base font-semibold text-white tracking-tight">Chronological Ledger Events</h2>
-            <p className="text-xs text-slate-400">Tamper-evident log of document ingestion, OCR parsing, and match rules</p>
+            <h2 className="font-display font-bold text-base text-[#F4F5F0]">
+              Chronological Ledger Events (SQLite audit_trail)
+            </h2>
+            <p className="text-xs text-[#89948C]">
+              Immutable audit events registered during document ingestion and rules execution
+            </p>
           </div>
 
           {/* Filter Pills (Separated, zero collision) */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-canvas-950 p-1 rounded-full border border-white/[0.08] self-start sm:self-auto">
+          <div className="flex flex-wrap items-center gap-1.5 bg-[#101915] p-1.5 rounded-full border border-[#23352C] self-start sm:self-auto">
             {['ALL', 'CRITICAL', 'WARNING', 'INFO'].map(filter => (
               <button
                 key={filter}
                 onClick={() => setLogFilter(filter)}
-                className={`px-3 py-1 rounded-full text-[11px] font-medium transition ${
+                className={`px-3 py-1 rounded-full text-[11px] font-mono font-medium transition ${
                   logFilter === filter 
-                    ? 'bg-white/10 text-white shadow-sm' 
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#D9F99D] text-[#101915] font-bold shadow-sm' 
+                    : 'text-[#89948C] hover:text-[#F4F5F0]'
                 }`}
               >
                 {filter}
@@ -149,7 +156,7 @@ export default function AuditTrail({ hashes, auditLogs, currentInvoiceId }) {
         </div>
 
         {/* Timeline Items */}
-        <div className="space-y-3 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-white/[0.08]">
+        <div className="space-y-3 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-[#23352C]">
           {filteredLogs.map((log) => {
             let statusBadge = {
               color: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
@@ -157,32 +164,40 @@ export default function AuditTrail({ hashes, auditLogs, currentInvoiceId }) {
             };
             if (log.status === 'CRITICAL') {
               statusBadge = {
-                color: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
-                dot: 'bg-rose-400'
+                color: 'text-[#F87171] bg-[#F87171]/15 border-[#F87171]/30',
+                dot: 'bg-[#F87171]'
               };
             } else if (log.status === 'WARNING') {
               statusBadge = {
-                color: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
-                dot: 'bg-amber-400'
+                color: 'text-[#FBBF24] bg-[#FBBF24]/15 border-[#FBBF24]/30',
+                dot: 'bg-[#FBBF24]'
               };
             }
 
-            return (
-              <div key={log.id} className="relative pl-8 flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3.5 rounded-xl bg-canvas-950/70 border border-white/[0.06] hover:border-white/10 transition">
-                <span className={`absolute left-2.5 top-5.5 w-2.5 h-2.5 rounded-full ${statusBadge.dot} -translate-x-1/2 ring-4 ring-canvas-950`} />
-                <div className="space-y-1">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xs font-semibold text-slate-200">{log.event}</span>
-                    <span className={`text-[10px] font-mono px-2 py-0.2 rounded-full border ${statusBadge.color}`}>
-                      {log.status}
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-400 font-normal">{log.details}</p>
-                </div>
+            const isExpanded = expandedLogId === log.id;
 
-                <div className="flex sm:flex-col items-center sm:items-end justify-between text-[11px] text-slate-500 font-mono">
-                  <span>{log.timestamp}</span>
-                  <span className="text-slate-400">{log.actor}</span>
+            return (
+              <div 
+                key={log.id} 
+                className="relative pl-8 p-4 rounded-2xl bg-[#101915] border border-[#23352C] hover:border-[#2E473C] transition"
+              >
+                <span className={`absolute left-2.5 top-6 w-2.5 h-2.5 rounded-full ${statusBadge.dot} -translate-x-1/2 ring-4 ring-[#101915]`} />
+                
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="space-y-1">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-xs font-semibold text-[#F4F5F0]">{log.event}</span>
+                      <span className={`text-[10px] font-mono px-2 py-0.2 rounded-full border ${statusBadge.color}`}>
+                        {log.status}
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#89948C] font-normal leading-relaxed">{log.details}</p>
+                  </div>
+
+                  <div className="flex sm:flex-col items-center sm:items-end justify-between text-[11px] text-[#89948C] font-mono shrink-0">
+                    <span>{log.timestamp}</span>
+                    <span className="text-[#D9F99D]">{log.actor}</span>
+                  </div>
                 </div>
               </div>
             );

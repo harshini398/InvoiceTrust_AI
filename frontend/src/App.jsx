@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import OverviewDashboard from './components/OverviewDashboard';
 import UploadVerify from './components/UploadVerify';
+import InvoiceTable from './components/InvoiceTable';
 import VerificationReport from './components/VerificationReport';
 import AuditTrail from './components/AuditTrail';
 import ReviewQueue from './components/ReviewQueue';
+import FooterSection from './components/FooterSection';
 import { initialContractData, initialQueueItems, initialAuditLogs } from './data/mockData';
 import { verifyDocuments, checkBackendHealth } from './api/invoiceService';
 
@@ -37,7 +39,7 @@ export default function App() {
     setTimeout(() => setToastMessage(null), 4000);
   };
 
-  // Handler for Document Verification
+  // Handler for Document Verification (Preserves existing API contract)
   const handleVerify = async (formData) => {
     const { data, source } = await verifyDocuments(formData);
     setVerificationResult(data);
@@ -48,46 +50,50 @@ export default function App() {
     
     const newLogs = [
       {
-        id: `LOG-${Date.now()}-1`,
-        timestamp: timestampStr,
+        id: Date.now() + 1,
         invoice_id: data.invoice_id,
+        event_type: "PACKAGE_INGESTED",
         event: "Document Package Ingested",
         actor: source === 'backend' ? 'FastAPI Service (:8000)' : 'Client Verification Engine',
         details: `Ingested invoice package. SHA-256 generated for 3 files.`,
+        timestamp: timestampStr,
         status: "INFO"
       },
       {
-        id: `LOG-${Date.now()}-2`,
-        timestamp: timestampStr,
+        id: Date.now() + 2,
         invoice_id: data.invoice_id,
+        event_type: "RULES_VERIFICATION",
         event: "Rules Cross-Check Executed",
         actor: "3-Way Match Engine",
         details: `Price: ${data.verifications?.price_check}, Qty: ${data.verifications?.quantity_check}, Duplicates: ${data.verifications?.duplicate_check}`,
+        timestamp: timestampStr,
         status: data.risk_level === 'HIGH' ? "CRITICAL" : "INFO"
       }
     ];
 
     setAuditLogs((prev) => [...newLogs, ...prev]);
 
-    // If High or Medium risk, add to Review Queue
-    if (data.risk_level === 'HIGH' || data.risk_level === 'MEDIUM') {
-      const newQueueItem = {
-        id: data.invoice_id,
-        supplier: data.extraction?.supplier || "Unknown Supplier",
-        amount: data.extraction?.total_amount ? `₹${data.extraction.total_amount.toLocaleString('en-IN')}` : "₹0",
-        risk_score: data.risk_score || 75,
-        risk_level: data.risk_level,
-        date: "Just now",
-        discrepancy: (data.discrepancies && data.discrepancies[0]) || "Variance detected during 3-way check.",
-        status: "PENDING_REVIEW",
-        reviewDecision: null,
-        reviewReason: "",
-        document_hashes: data.document_hashes,
-        verifications: data.verifications
-      };
+    // Update queue/invoices table records if High or Medium risk
+    const newQueueItem = {
+      id: Date.now(),
+      invoice_id: data.invoice_id,
+      supplier: data.extraction?.supplier || "Unknown Supplier",
+      total_amount: data.extraction?.total_amount || 0,
+      amount: data.extraction?.total_amount ? `₹${data.extraction.total_amount.toLocaleString('en-IN')}` : "₹0",
+      risk_score: data.risk_score || 75,
+      risk_level: data.risk_level,
+      payment_status: "UNPAID",
+      status: "PENDING_REVIEW",
+      created_at: timestampStr,
+      date: "Just now",
+      discrepancy: (data.discrepancies && data.discrepancies[0]) || "Variance detected during 3-way check.",
+      reviewDecision: null,
+      reviewReason: "",
+      document_hashes: data.document_hashes,
+      verifications: data.verifications
+    };
 
-      setQueueItems((prev) => [newQueueItem, ...prev.filter(item => item.id !== data.invoice_id)]);
-    }
+    setQueueItems((prev) => [newQueueItem, ...prev.filter(item => (item.invoice_id !== data.invoice_id && item.id !== data.invoice_id))]);
 
     showToast(
       source === 'backend'
@@ -102,10 +108,11 @@ export default function App() {
   const handleRecordDecision = (invoiceId, decision, reason) => {
     setQueueItems((prev) =>
       prev.map((item) =>
-        item.id === invoiceId
+        (item.invoice_id === invoiceId || item.id === invoiceId)
           ? {
               ...item,
               status: decision === 'APPROVE' ? 'APPROVED' : 'REJECTED',
+              payment_status: decision === 'APPROVE' ? 'PAID' : 'HELD',
               reviewDecision: decision,
               reviewReason: reason,
             }
@@ -117,12 +124,13 @@ export default function App() {
     const timestampStr = now.toISOString().replace('T', ' ').substring(0, 19);
 
     const decisionLog = {
-      id: `LOG-DEC-${Date.now()}`,
-      timestamp: timestampStr,
+      id: Date.now(),
       invoice_id: invoiceId,
+      event_type: `REVIEW_${decision}`,
       event: `Human Review: ${decision}`,
-      actor: "Lead Fraud Examiner",
+      actor: "Senior Fraud Examiner",
       details: `Decision recorded: "${reason}"`,
+      timestamp: timestampStr,
       status: decision === 'APPROVE' ? "INFO" : "WARNING"
     };
 
@@ -130,15 +138,36 @@ export default function App() {
     showToast(`Decision recorded for ${invoiceId}: ${decision}`);
   };
 
+  const handleSelectInvoiceFromTable = (id) => {
+    const matched = queueItems.find(q => q.invoice_id === id || q.id === id);
+    if (matched) {
+      setVerificationResult({
+        ...initialContractData,
+        invoice_id: matched.invoice_id || matched.id,
+        extraction: {
+          ...initialContractData.extraction,
+          supplier: matched.supplier,
+          invoice_number: matched.invoice_id || matched.id,
+          total_amount: matched.total_amount || 472000,
+        },
+        risk_score: matched.risk_score,
+        risk_level: matched.risk_level,
+        discrepancies: [matched.discrepancy],
+        verifications: matched.verifications || initialContractData.verifications
+      });
+    }
+    setActiveTab('report');
+  };
+
   const pendingCount = queueItems.filter(item => item.status === 'PENDING_REVIEW').length;
 
   return (
-    <div className="min-h-screen bg-canvas-950 text-slate-100 flex flex-col font-sans selection:bg-orange-500 selection:text-white relative">
+    <div className="min-h-screen bg-[#101915] text-[#F4F5F0] flex flex-col font-sans selection:bg-[#D9F99D] selection:text-[#101915] relative">
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 animate-bounce glass-panel text-slate-200 px-4 py-3 rounded-full shadow-2xl text-xs font-medium flex items-center space-x-2 border border-white/20">
-          <span className="w-2 h-2 rounded-full bg-orange-400" />
+        <div className="fixed bottom-6 right-6 z-50 animate-bounce p-4 rounded-2xl bg-[#182821] border border-[#D9F99D]/50 text-[#D9F99D] shadow-2xl text-xs font-mono font-semibold flex items-center space-x-2.5">
+          <span className="w-2 h-2 rounded-full bg-[#D9F99D] animate-ping" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -149,40 +178,44 @@ export default function App() {
         setActiveTab={setActiveTab} 
         pendingCount={pendingCount}
         backendOnline={backendOnline}
-        onOpenUpload={() => setActiveTab('upload')}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      {/* Main Content Viewport */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
         {activeTab === 'dashboard' && (
           <OverviewDashboard
             queueItems={queueItems}
             onNavigateToUpload={() => setActiveTab('upload')}
             onNavigateToQueue={() => setActiveTab('queue')}
-            onSelectInvoice={(id) => {
-              const matched = queueItems.find(q => q.id === id);
-              if (matched) {
-                setVerificationResult({
-                  ...initialContractData,
-                  invoice_id: matched.id,
-                  extraction: {
-                    ...initialContractData.extraction,
-                    supplier: matched.supplier,
-                    invoice_number: matched.id,
-                  },
-                  risk_score: matched.risk_score,
-                  risk_level: matched.risk_level,
-                  discrepancies: [matched.discrepancy],
-                  verifications: matched.verifications || initialContractData.verifications
-                });
-              }
-              setActiveTab('report');
-            }}
+            onNavigateToTable={() => setActiveTab('table')}
+            onNavigateToAudit={() => setActiveTab('audit')}
+            onSelectInvoice={handleSelectInvoiceFromTable}
           />
         )}
 
         {activeTab === 'upload' && (
           <UploadVerify onVerifySuccess={handleVerify} />
+        )}
+
+        {activeTab === 'table' && (
+          <div className="space-y-6 animate-fadeIn pb-12">
+            <div className="pb-4 border-b border-[#23352C]">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#D9F99D]">
+                Data Layer
+              </span>
+              <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[#F4F5F0] tracking-tight mt-1">
+                Invoices Ledger Records
+              </h1>
+              <p className="text-xs sm:text-sm text-[#89948C]">
+                Structured SQLite invoices table with live search, payment statuses, and risk scoring.
+              </p>
+            </div>
+            <InvoiceTable 
+              invoices={queueItems} 
+              onSelectInvoice={handleSelectInvoiceFromTable} 
+            />
+          </div>
         )}
 
         {activeTab === 'report' && (
@@ -208,21 +241,17 @@ export default function App() {
             onRecordDecision={handleRecordDecision}
           />
         )}
+
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-white/[0.08] bg-canvas-950/80 py-8 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center space-x-2">
-            <span className="font-semibold text-slate-300">InvoiceTrust AI Canvas</span>
-            <span>•</span>
-            <span>Branch: <code className="text-orange-400 font-mono">feature/frontend-ui</code></span>
-          </div>
-          <div>
-            Built with React 19 + Vite + Tailwind CSS • Cryptographic 3-Way Match
-          </div>
-        </div>
-      </footer>
+      {/* Phenomenon Studio Closing CTA & Footer */}
+      <FooterSection 
+        onNavigateToUpload={() => {
+          setActiveTab('upload');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        setActiveTab={setActiveTab}
+      />
     </div>
   );
 }

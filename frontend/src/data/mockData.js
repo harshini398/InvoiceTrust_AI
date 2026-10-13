@@ -1,4 +1,4 @@
-// Agreed JSON Contract and Initial Mock Dataset
+// Strict adherence to agreed JSON Contract & SQLite Database Schema
 export const initialContractData = {
   invoice_id: "INV-1042",
   document_hashes: {
@@ -24,30 +24,39 @@ export const initialContractData = {
   risk_level: "HIGH"
 };
 
+// Existing database records mapped to invoices table schema
 export const initialQueueItems = [
   {
-    id: "INV-1042",
+    id: 1,
+    invoice_id: "INV-1042",
     supplier: "ABC Traders",
+    total_amount: 472000,
     amount: "₹4,72,000",
     risk_score: 75,
     risk_level: "HIGH",
+    payment_status: "UNPAID",
+    status: "PENDING_REVIEW",
+    created_at: "2026-10-13 10:14:02",
     date: "2026-10-13 10:14 AM",
     discrepancy: "Invoice unit price (₹8,000) exceeds PO unit price (₹5,000) by ₹3,000.",
-    status: "PENDING_REVIEW",
     reviewDecision: null,
     reviewReason: "",
     document_hashes: initialContractData.document_hashes,
     verifications: initialContractData.verifications
   },
   {
-    id: "INV-1039",
+    id: 2,
+    invoice_id: "INV-1039",
     supplier: "Apex Logistics Ltd",
+    total_amount: 124500,
     amount: "₹1,24,500",
     risk_score: 82,
     risk_level: "HIGH",
+    payment_status: "HELD",
+    status: "PENDING_REVIEW",
+    created_at: "2026-10-12 16:30:15",
     date: "2026-10-12 04:30 PM",
     discrepancy: "Duplicate invoice hash detected across previous billing cycle.",
-    status: "PENDING_REVIEW",
     reviewDecision: null,
     reviewReason: "",
     document_hashes: {
@@ -62,14 +71,18 @@ export const initialQueueItems = [
     }
   },
   {
-    id: "INV-1035",
+    id: 3,
+    invoice_id: "INV-1035",
     supplier: "Zeta Tech Solutions",
+    total_amount: 89000,
     amount: "₹89,000",
     risk_score: 42,
     risk_level: "MEDIUM",
+    payment_status: "UNPAID",
+    status: "PENDING_REVIEW",
+    created_at: "2026-10-12 14:15:30",
     date: "2026-10-12 02:15 PM",
     discrepancy: "Delivery receipt quantity (10 units) is lower than billed quantity (12 units).",
-    status: "PENDING_REVIEW",
     reviewDecision: null,
     reviewReason: "",
     document_hashes: {
@@ -84,14 +97,18 @@ export const initialQueueItems = [
     }
   },
   {
-    id: "INV-1028",
+    id: 4,
+    invoice_id: "INV-1028",
     supplier: "Delta Industrial Supplies",
+    total_amount: 315400,
     amount: "₹3,15,400",
     risk_score: 12,
     risk_level: "LOW",
+    payment_status: "PAID",
+    status: "APPROVED",
+    created_at: "2026-10-11 11:45:00",
     date: "2026-10-11 11:45 AM",
     discrepancy: "All three-way checks passed successfully.",
-    status: "APPROVED",
     reviewDecision: "APPROVE",
     reviewReason: "Verified with procurement department, exact match on all line items.",
     document_hashes: {
@@ -107,50 +124,56 @@ export const initialQueueItems = [
   }
 ];
 
+// Existing audit_trail table schema: (id, invoice_id, event_type, details, timestamp)
 export const initialAuditLogs = [
   {
-    id: "LOG-901",
-    timestamp: "2026-10-13 10:14:02",
+    id: 1,
     invoice_id: "INV-1042",
+    event_type: "PACKAGE_INGESTED",
     event: "Document Package Ingested",
-    actor: "Automated Pipeline",
     details: "Received Invoice, PO, and Delivery Receipt (3 files)",
+    timestamp: "2026-10-13 10:14:02",
+    actor: "Automated Pipeline",
     status: "INFO"
   },
   {
-    id: "LOG-902",
-    timestamp: "2026-10-13 10:14:03",
+    id: 2,
     invoice_id: "INV-1042",
+    event_type: "HASH_COMPUTED",
     event: "SHA-256 Hashes Computed",
-    actor: "Cryptographic Subsystem",
     details: "Generated SHA-256 digests for all 3 ingested PDFs",
+    timestamp: "2026-10-13 10:14:03",
+    actor: "Cryptographic Subsystem",
     status: "INFO"
   },
   {
-    id: "LOG-903",
-    timestamp: "2026-10-13 10:14:05",
+    id: 3,
     invoice_id: "INV-1042",
+    event_type: "OCR_EXTRACTION",
     event: "OCR & Key-Value Extraction Complete",
-    actor: "Vision Extraction Model",
     details: "Extracted supplier: ABC Traders, Amount: ₹4,72,000, Confidence: 95%",
+    timestamp: "2026-10-13 10:14:05",
+    actor: "Vision Extraction Model",
     status: "INFO"
   },
   {
-    id: "LOG-904",
-    timestamp: "2026-10-13 10:14:06",
+    id: 4,
     invoice_id: "INV-1042",
+    event_type: "VERIFICATION_FAILED",
     event: "3-Way Verification Performed",
-    actor: "Rules Engine",
     details: "Price check FAILED: Unit price ₹8,000 > ₹5,000",
+    timestamp: "2026-10-13 10:14:06",
+    actor: "Rules Engine",
     status: "WARNING"
   },
   {
-    id: "LOG-905",
-    timestamp: "2026-10-13 10:14:06",
+    id: 5,
     invoice_id: "INV-1042",
+    event_type: "RISK_FLAGGED",
     event: "Risk Score Computed & Flagged",
-    actor: "Risk Scorer",
     details: "Calculated Risk Score: 75/100 (HIGH RISK). Routed to Human Review Queue.",
+    timestamp: "2026-10-13 10:14:06",
+    actor: "Risk Scorer",
     status: "CRITICAL"
   }
 ];
