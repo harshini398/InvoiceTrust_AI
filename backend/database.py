@@ -11,7 +11,6 @@ def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # Invoices and extracted metadata table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS invoices (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,12 +19,18 @@ def init_db():
             total_amount REAL,
             risk_score INTEGER,
             risk_level TEXT,
+            payment_status TEXT DEFAULT 'UNPAID',
             status TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
     
-    # Document Hashes Table (Level 1 Duplicate Detection)
+    # Auto-migrate payment_status column if upgrading existing database
+    cursor.execute("PRAGMA table_info(invoices)")
+    existing_cols = [row[1] for row in cursor.fetchall()]
+    if "payment_status" not in existing_cols:
+        cursor.execute("ALTER TABLE invoices ADD COLUMN payment_status TEXT DEFAULT 'UNPAID'")
+    
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS document_hashes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,7 +41,6 @@ def init_db():
         )
     ''')
     
-    # Audit Trail Table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS audit_trail (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,5 +54,4 @@ def init_db():
     conn.commit()
     conn.close()
 
-# Initialize DB on import
 init_db()
