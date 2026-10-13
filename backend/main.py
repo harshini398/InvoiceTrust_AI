@@ -37,6 +37,10 @@ class VerifyResponse(BaseModel):
 def read_root():
     return {"message": "Invoice Trust AI API is running"}
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "service": "InvoiceTrust_AI"}
+
 @app.post("/invoices/verify", response_model=VerifyResponse)
 async def verify_invoice(
     invoice: UploadFile = File(...),
