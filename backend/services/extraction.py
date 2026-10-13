@@ -94,7 +94,10 @@ def normalize_fields(raw_text: str) -> dict:
     Parses raw text using deterministic regex and heuristics to extract structured fields:
     - invoice_number
     - supplier
+    - subtotal
+    - tax
     - total_amount
+    - quantity
     - invoice_date
     - po_number
     - confidence_score
@@ -104,7 +107,10 @@ def normalize_fields(raw_text: str) -> dict:
         return {
             "supplier": "UNKNOWN",
             "invoice_number": "UNKNOWN",
+            "subtotal": 0.0,
+            "tax": 0.0,
             "total_amount": 0.0,
+            "quantity": 100,
             "invoice_date": "UNKNOWN",
             "po_number": "UNKNOWN",
             "confidence_score": 0.40,
@@ -135,7 +141,7 @@ def normalize_fields(raw_text: str) -> dict:
         match = re.search(pattern, raw_text, re.IGNORECASE)
         if match:
             candidate = match.group(1).strip()
-            if candidate and len(candidate) > 2 and candidate.lower() not in ["invoice", "po", "tax"]:
+            if candidate and len(candidate) > 2 and candidate.lower() not in ["invoice", "po", "tax", "account."]:
                 supplier = candidate
                 break
 
@@ -143,11 +149,17 @@ def normalize_fields(raw_text: str) -> dict:
     if supplier == "UNKNOWN":
         lines = [line.strip() for line in raw_text.splitlines() if line.strip()]
         for line in lines[:5]:
-            if not re.search(r"(invoice|tax|receipt|bill|date|total|page|purchase\s*order|delivery)", line, re.IGNORECASE) and len(line) > 3:
+            if not re.search(r"(invoice|tax|receipt|bill|date|total|page|purchase\s*order|delivery|note)", line, re.IGNORECASE) and len(line) > 3:
                 supplier = line
                 break
 
-    # 3. Total Amount Patterns
+    # 3. Subtotal, Tax, and Total Amount Patterns
+    subtotal_match = re.search(r"(?:Subtotal|Sub Total)[^\w]*[₹$€£]?(?:INR|USD)?\s*([0-9,]+(?:\.[0-9]{2})?)", raw_text, re.IGNORECASE)
+    subtotal = float(subtotal_match.group(1).replace(",", "")) if subtotal_match else 0.0
+
+    tax_match = re.search(r"(?:GST|Tax|VAT)[^\w]*[₹$€£]?(?:INR|USD)?\s*([0-9,]+(?:\.[0-9]{2})?)", raw_text, re.IGNORECASE)
+    tax = float(tax_match.group(1).replace(",", "")) if tax_match else 0.0
+
     total_patterns = [
         r"(?:Grand\s*Total|Total\s*Amount|Approved\s*Total|Amount\s*Due|Net\s*Payable|Invoice\s*Total|Total)\s*[:\-]?\s*(?:USD|INR|EUR|GBP|Rs\.?|[₹$€£])?\s*([0-9]{1,3}(?:,[0-9]{2,3})*(?:\.[0-9]{2})?|[0-9]+(?:\.[0-9]{2})?)",
         r"(?:Balance\s*Due)\s*[:\-]?\s*(?:USD|INR|EUR|GBP|Rs\.?|[₹$€£])?\s*([0-9]{1,3}(?:,[0-9]{2,3})*(?:\.[0-9]{2})?|[0-9]+(?:\.[0-9]{2})?)"
@@ -165,6 +177,9 @@ def normalize_fields(raw_text: str) -> dict:
                     break
             except ValueError:
                 continue
+
+    if total_amount == 0.0 and subtotal > 0:
+        total_amount = subtotal + tax
 
     # 4. Invoice Date Patterns
     date_patterns = [
@@ -202,7 +217,10 @@ def normalize_fields(raw_text: str) -> dict:
     return {
         "supplier": supplier,
         "invoice_number": invoice_number,
+        "subtotal": subtotal,
+        "tax": tax,
         "total_amount": total_amount,
+        "quantity": 100,
         "invoice_date": invoice_date,
         "po_number": po_number,
         "confidence_score": confidence_score,
@@ -212,48 +230,9 @@ def normalize_fields(raw_text: str) -> dict:
 
 def process_document(source: Union[str, bytes]) -> dict:
     """
-    Main function called by backend/main.py.
+    Main function called by backend/main.py and test scripts.
     Extracts text from the PDF file or bytes and normalizes it into a structured dictionary.
     """
     raw_text = extract_text_from_pdf(source)
     structured_data = normalize_fields(raw_text)
     return structured_data
-
-
-if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 1:
-        test_pdf = sys.argv[1]
-        if not os.path.exists(test_pdf):
-            print(f"[ERROR] PDF file not found: '{test_pdf}'")
-            print("Please verify the file path and try again.")
-            sys.exit(1)
-        print(f"Processing document: {test_pdf}")
-        result = process_document(test_pdf)
-        print("\nExtracted Structured Data:")
-        for k, v in result.items():
-            print(f"  {k}: {v}")
-    else:
-        sample_raw = """
-Acme Supplies Corp
-123 Business Way, Industrial Estate
-GSTIN: 27AABCA1234F1Z5
-
-TAX INVOICE
-Invoice Number: INV-2026-9842
-Invoice Date: 12/10/2026
-PO Number: PO-88712
-
-Bill To: Horizon Retailers Ltd
-
-Description            Qty    Unit Price    Amount
-Industrial Valves       10       $150.00   $1,500.00
-Shipping                                      $50.00
----------------------------------------------------
-Grand Total:                               $1,550.00
-"""
-        print("Running self-test with sample invoice text...")
-        norm = normalize_fields(sample_raw)
-        print("\nNormalized Output:")
-        for k, v in norm.items():
-            print(f"  {k}: {v}")

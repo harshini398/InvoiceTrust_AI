@@ -28,9 +28,10 @@ class VerifyResponse(BaseModel):
     document_hashes: Dict[str, str]
     extraction: Dict[str, Any]
     verifications: Dict[str, str]
-    discrepancies: List[str]
+    discrepancies: List[Any]
     risk_score: int
     risk_level: str
+    explainable_risk: Optional[Dict[str, Any]] = None
 
 @app.get("/")
 def read_root():
@@ -123,6 +124,7 @@ async def verify_invoice(
         "verifications": verification_result["verifications"],
         "discrepancies": verification_result["discrepancies"],
         "risk_score": verification_result["risk_score"],
-        "risk_level": verification_result["risk_level"]
+        "risk_level": verification_result["risk_level"],
+        "explainable_risk": verification_result.get("explainable_risk")
     }
 

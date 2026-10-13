@@ -84,8 +84,9 @@ def verify_transaction(
     if "total_amount" in extracted_po and extracted_po.get("total_amount", 0.0) > 0:
         po_amount = extracted_po.get("total_amount", 0.0)
         if abs(inv_amount - po_amount) > 1.0:
+            diff = inv_amount - po_amount
             discrepancies.append(
-                f"Invoice total amount (₹{inv_amount:,.2f}) does not match Purchase Order amount (₹{po_amount:,.2f})."
+                f"Invoice total amount (₹{inv_amount:,.2f}) does not match Purchase Order amount (₹{po_amount:,.2f}) by ₹{abs(diff):,.2f}."
             )
             risk_score += 50
             price_check = "FAIL"
@@ -113,19 +114,32 @@ def verify_transaction(
     # Determine risk level
     if risk_score >= 50:
         risk_level = "HIGH"
+        recommended_action = "Request approved price amendment or vendor clarification before financing."
     elif risk_score > 0:
         risk_level = "MEDIUM"
+        recommended_action = "Inspect minor discrepancy details before proceeding with disbursement."
     else:
         risk_level = "LOW"
+        recommended_action = "Proceed with financing. All 3-way checks passed successfully."
 
     return {
         "verifications": {
             "supplier_check": supplier_check,
             "price_check": price_check,
             "quantity_check": quantity_check,
-            "duplicate_check": duplicate_check
+            "duplicate_check": duplicate_check,
+            "three_way_match": "FAIL" if risk_score > 0 else "PASS"
         },
         "discrepancies": discrepancies,
         "risk_score": risk_score,
-        "risk_level": risk_level
+        "risk_level": risk_level,
+        "explainable_risk": {
+            "risk_score": risk_score,
+            "risk_level": risk_level,
+            "discrepancies": discrepancies,
+            "recommended_action": recommended_action
+        }
     }
+
+# Advanced alias for full backward compatibility
+verify_transaction_advanced = verify_transaction
